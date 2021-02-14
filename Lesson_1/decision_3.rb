@@ -16,10 +16,3 @@ elsif a == b || a == max_side || b == max_side
 elsif max_side ** 2 == a ** 2 + b ** 2
   puts "Треугольник прямоугольный"
 end
-
-    
-
-
-
-    
-
