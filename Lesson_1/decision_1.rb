@@ -1,10 +1,10 @@
-puts "Как вас зовут?"
+print "Как вас зовут? "
 name = gets.chomp 
-puts "Какой у вас возраст?"
+print "Какой у вас рост? "
 growth = gets.to_f
 weight = (growth - 110) * 1.15
-if weight.to_f < 0
-    puts "#{name} - Ваш вес уже оптимальный"
+if weight < 0
+  puts "#{name} - Ваш вес уже оптимальный"
 else
-    puts "#{name} - Ваш вес составляет: #{weight}" 
+  puts "#{name} - Ваш идеальный вес составляет: #{weight}" 
 end
