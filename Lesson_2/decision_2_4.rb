@@ -1,7 +1,10 @@
-array = ['а', 'y', 'о', 'ы', 'и', 'э', 'я', 'ю', 'ё', 'у']
-hash = {}
-count = 0
-array.each do |key|
-  hash[key] = count += 1
+hash_letters = {}
+hash_vowels = {}
+array_vowels = ['a', 'o', 'e', 'u', 'i']
+letters = ('a'..'z').each_with_index do |key, value|
+  hash_letters[key] = value + 1
 end
-puts hash
+array_vowels.each do |vowels|
+  hash_vowels[vowels] = hash_letters[vowels]
+end
+puts hash_vowels
