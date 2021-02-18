@@ -11,9 +11,11 @@ year = gets.to_i
 (0..month-2).each do |number|
   result += months[number]
 end
-if year % 4 == 0 && year % 100 != 0 && year % 400 != 0
-  result += 1
-elsif year % 4 == 0 && year % 100 == 0 && year % 400 == 0
-  result += 1
+if year % 4 == 0
+  if year % 100 != 0
+    result += 1
+  elsif year % 100 == 0 && year % 400 == 0
+    result += 1 
+  end 
 end
 puts result
