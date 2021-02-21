@@ -116,23 +116,23 @@ class Train
       @route[@index].send_train(self)
       @index -= 1
       @route[@index].take_train(self)
-      @curr_station = @route[@index].name
+      @curr_station = @route[@index]
     end
   end
 
   def previous_station
-    previous_station = @route[@index].name
+    previous_station = @route[@index]
     puts "Текущая станция: #{previous_station}"
   end
 
 
   def current_station
-    current_station = @route[@index].name
+    current_station = @route[@index]
     puts "Текущая станция: #{current_station}"
   end
 
   def next_station
-    next_station = @route[@index + 1].name
+    next_station = @route[@index + 1]
     puts "Следующая станция: #{next_station}"
   end
 
