@@ -16,18 +16,6 @@ class Station
     end
   end
 
-  def type_train
-    @qty_pass = 0
-    @qty_cargo = 0
-    @array_trains.each do |train|
-      if train.type.include?('пассажирский')
-        @qty_pass += 1
-      elsif train.type.include?('грузовой')
-        @qty_cargo += 1
-      end
-    end
-  end
-
   def send_train(train)
     @array_trains.delete(train)
   end
@@ -54,7 +42,7 @@ class Route
 end
 
 class Train
-  attr_reader :number, :type, :qty_wagons, :speed, :route, :current_station
+  attr_reader :number, :type, :qty_wagons, :speed, :route
 
   def initialize(number, type, qty_wagons)
     @number = number
@@ -63,68 +51,45 @@ class Train
     @speed = 0
   end
 
-  def add_speed(speed)
-    @speed += speed
-  end
-
-  def current_speed
-    "Текущаая скорость: #{@speed}"
-  end
-
-  def reduce_speed(speed)
-    @speed -= speed
-  end
-
-  def info_wagons
-    "Количество вагонов: #{@qty_wagons}"
-  end
-
-  def attach_wagon
-    if @speed == 0
-      @qty_wagons += 1
-    else
-      "Поед движется, прицепка невозможна"
-    end
-  end
-    
-  def unhook_wagon
-    if @speed == 0
-      @qty_wagons -= 1
-    else
-      "Поед движется, отцепка невозможна"
-    end
-  end
-
   def take_route(itinerary)
     @index = 0
     @route = itinerary.list_station
     @route[@index].take_train(self)
-    @curr_station = @route[@index]
+    @current_station = @route[@index]
   end
 
   def move_next
-    if @route[@index].take_trains.include?(self)
+    if @route[@index].array_trains.include?(self)
       @route[@index].send_train(self)
       @index += 1
       @route[@index].take_train(self)
-      @curr_station = @route[@index]
+      @current_station = @route[@index]
+      if @current_station == @route[-1]
+        puts "#{@current_station} - данная станция конечная"
+      end
     end
   end
 
   def move_back
-    if @route[@index].take_trains.include?(self)
+    if @route[@index].array_trains.include?(self)
       @route[@index].send_train(self)
       @index -= 1
       @route[@index].take_train(self)
-      @curr_station = @route[@index]
+      @current_station = @route[@index]
+      if @current_station == @route[0]
+        puts "#{@current_station} - данная станция конечная"
+      end
     end
   end
 
   def previous_station
-    previous_station = @route[@index]
-    puts "Текущая станция: #{previous_station}"
+    if @current_station == @route[0]
+      puts "Станции в маршруте закончились"
+    else
+      previous_station = @route[@index - 1]
+      puts "Предыдущая станция: #{previous_station}"
+    end
   end
-
 
   def current_station
     current_station = @route[@index]
@@ -132,8 +97,12 @@ class Train
   end
 
   def next_station
-    next_station = @route[@index + 1]
-    puts "Следующая станция: #{next_station}"
+    if @current_station == @route[-1]
+      puts "Станции в маршруте закончились"
+    else
+      next_station = @route[@index + 1]
+      puts "Следующая станция: #{next_station}"
+    end
   end
 
 station_1 = Station.new('Berlin')
