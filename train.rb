@@ -30,7 +30,7 @@ class Station
   end
 
   def send_train(train)
-    @array_trains.delete(train)
+    @trains.delete(train)
   end
 end
 
