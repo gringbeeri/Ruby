@@ -36,21 +36,19 @@ class Station
 end
 
 class Route
-  attr_reader :list_station, :start_station, :end_station
-  
+  attr_reader :stations, :start_station, :end_station
+
   def initialize(start_station, end_station)
-    @start_station = start_station
-    @end_station = end_station
-    @list_station = [start_station, end_station]
+    @stations = [@start_station=start_station, @end_station=end_station]
   end
 
   def add_station(station)
-    list_station.insert(1, station)
+    stations.insert(1, station)
   end
 
   def remove_station(station)
-    if list_station.find_index(station) > list_station.find_index(start_station) && list_station.find_index(station) < list_station.find_index(end_station)
-      list_station.delete(station)
+    if stations.find_index(station) > stations.find_index(start_station) && stations.find_index(station) < stations.find_index(end_station)
+      stations.delete(station)
     else
       puts "Начальную и конечную станцию удалить нельзя"
     end
@@ -58,14 +56,13 @@ class Route
 
   def info_route
     puts "Список станций в маршруте: "
-    list_station.each_with_index do |station|
+    stations.each do |station|
       puts station.name
     end
   end
 end
 
 class Train
-  attr_writer :given_speed
   attr_reader :number, :type, :qty_wagons, :given_speed, :route, :index
 
   def initialize(number, type, qty_wagons)
@@ -76,15 +73,15 @@ class Train
   end
   
   def add_speed(speed)
-    self.given_speed += speed
+    @given_speed += speed
   end
 
   def current_speed
     puts "Текущаая скорость: #{given_speed}"
   end
 
-  def reduce_speed(speed)
-    self.given_speed -= speed
+  def reduce_speed
+    given_speed = 0
   end
 
   def info_wagons
@@ -92,7 +89,7 @@ class Train
   end
 
   def attach_wagon
-    if self.given_speed == 0
+    if reduce_speed
       qty_wagons += 1
     else
       puts "Поед движется, прицепка невозможна"
@@ -100,7 +97,7 @@ class Train
   end
     
   def unhook_wagon
-    if self.given_speed == 0
+    if reduce_speed
       qty_wagons -= 1
     else
       puts "Поед движется, отцепка невозможна"
@@ -110,54 +107,36 @@ class Train
   def take_route(route)
     @index = 0
     @route = route
-    route.list_station[index].take_train(self)
-    @current_station = route.list_station[index]
+    route.stations[@index].take_train(self)
   end
 
   def move_next
-    if route.list_station[index].array_trains.include?(self)
-      route.list_station[index].send_train(self)
-      index += 1
-      route.list_station[index].take_train(self)
-      current_station = route.list_station[index]
-      if current_station == route.list_station[-1]
-        puts "#{current_station} - данная станция конечная"
-      end
-    end
+    route.stations[index].send_train(self) 
+    next_station.take_train(self)
   end
 
   def move_back
-    if route.list_station[index].array_trains.include?(self)
-      route.list_station[index].send_train(self)
-      index -= 1
-      route.list_station[index].take_train(self)
-      current_station = route.list_station[index]
-      if current_station == route.list_station[0]
-        puts "#{current_station} - данная станция конечная"
-      end
-    end
+    route.stations[index].send_train(self) 
+    previous_station.take_train(self)
   end
 
   def previous_station
-    if current_station == route.list_station[0]
-      puts "Станции в маршруте закончились"
+    if route.stations[index].trains.include?(self)
+      route.stations[index - 1]
     else
-      previous_station = route.list_station[index - 1]
-      puts "Предыдущая станция: #{previous_station}"
+      route.stations[@index -= 1]
     end
   end
 
   def current_station
-    current_station = route.list_station[index]
-    puts "Текущая станция: #{current_station}"
+    route.stations[index]
   end
 
   def next_station
-    if current_station == route.list_station[-1]
-      puts "Станции в маршруте закончились"
+    if route.stations[index].trains.include?(self)
+      route.stations[index + 1]
     else
-      next_station = route.list_station[index + 1]
-      puts "Следующая станция: #{next_station}"
+      route.stations[@index += 1]
     end
   end
 end
