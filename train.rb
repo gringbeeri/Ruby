@@ -36,10 +36,10 @@ class Station
 end
 
 class Route
-  attr_reader :stations, :start_station, :end_station
+  attr_reader :stations
 
   def initialize(start_station, end_station)
-    @stations = [@start_station=start_station, @end_station=end_station]
+    @stations = [start_station, end_station]
   end
 
   def add_station(station)
@@ -47,23 +47,23 @@ class Route
   end
 
   def remove_station(station)
-    if stations.find_index(station) > stations.find_index(start_station) && stations.find_index(station) < stations.find_index(end_station)
-      stations.delete(station)
+    if station == stations[0] || station == stations[-1]
+      puts "Начальную/конечную станцию удалять нельзя"
     else
-      puts "Начальную и конечную станцию удалить нельзя"
+      stations.delete(station)
     end
   end
 
   def info_route
     puts "Список станций в маршруте: "
     stations.each do |station|
-      puts station.name
+      puts station
     end
   end
 end
 
 class Train
-  attr_reader :number, :type, :qty_wagons, :given_speed, :route, :index
+  attr_reader :type, :qty_wagons, :route, :index, :given_speed
 
   def initialize(number, type, qty_wagons)
     @number = number
@@ -71,7 +71,7 @@ class Train
     @qty_wagons = qty_wagons
     @given_speed = 0
   end
-  
+
   def add_speed(speed)
     @given_speed += speed
   end
@@ -81,7 +81,7 @@ class Train
   end
 
   def reduce_speed
-    given_speed = 0
+    @given_speed = 0
   end
 
   def info_wagons
@@ -89,16 +89,16 @@ class Train
   end
 
   def attach_wagon
-    if reduce_speed
-      qty_wagons += 1
+    if given_speed == 0
+      @qty_wagons += 1
     else
       puts "Поед движется, прицепка невозможна"
     end
   end
     
   def unhook_wagon
-    if reduce_speed
-      qty_wagons -= 1
+    if given_speed == 0
+      @qty_wagons -= 1
     else
       puts "Поед движется, отцепка невозможна"
     end
@@ -107,7 +107,7 @@ class Train
   def take_route(route)
     @index = 0
     @route = route
-    route.stations[@index].take_train(self)
+    route.stations[index].take_train(self)
   end
 
   def move_next
@@ -121,7 +121,7 @@ class Train
   end
 
   def previous_station
-    if route.stations[index].trains.include?(self)
+    if route.stations[index].send_train(self)
       route.stations[index - 1]
     else
       route.stations[@index -= 1]
