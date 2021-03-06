@@ -4,7 +4,7 @@ class PassWagon
     @type = 'пассажирский'
   end
 
-  def type_train
-    puts @type
+  def wagon_type
+    return_type
   end
 end

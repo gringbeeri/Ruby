@@ -1,21 +1,26 @@
 class Route
-  attr_reader :list_station
-    
+  attr_reader :stations
+
   def initialize(start_station, end_station)
-    @list_station = [start_station, end_station]
+    @stations = [start_station, end_station]
   end
-  
+
   def add_station(station)
-    @list_station.insert(1, station)
+    stations.insert(1, station)
   end
-  
+
   def remove_station(station)
-    @list_station.delete(station)
-    if @start_station && @end_station != @list_station.delete(station)
+    if station == stations[0] || station == stations[-1]
+      puts "Начальную/конечную станцию удалять нельзя"
+    else
+      stations.delete(station)
     end
   end
-  
+
   def info_route
-    puts "Список станций маршрута: #{list_station}"
+    puts "Список станций в маршруте: "
+    stations.each do |station|
+      puts station
+    end
   end
 end
