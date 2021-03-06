@@ -63,7 +63,7 @@ class Route
 end
 
 class Train
-  attr_reader :type, :qty_wagons, :route, :index, :given_speed
+  attr_reader :number, :type, :qty_wagons, :route, :index, :given_speed
 
   def initialize(number, type, qty_wagons)
     @number = number
@@ -111,21 +111,19 @@ class Train
   end
 
   def move_next
-    route.stations[index].send_train(self) 
+    current_station.send_train(self) 
     next_station.take_train(self)
+    @index += 1
   end
 
   def move_back
-    route.stations[index].send_train(self) 
+    current_station.send_train(self) 
     previous_station.take_train(self)
+    @index -= 1
   end
 
   def previous_station
-    if route.stations[index].send_train(self)
-      route.stations[index - 1]
-    else
-      route.stations[@index -= 1]
-    end
+    route.stations[index - 1]
   end
 
   def current_station
@@ -133,10 +131,6 @@ class Train
   end
 
   def next_station
-    if route.stations[index].trains.include?(self)
-      route.stations[index + 1]
-    else
-      route.stations[@index += 1]
-    end
+    route.stations[index + 1]
   end
 end
