@@ -1,15 +1,13 @@
 class Train
-  def initialize(number)
-    @number = number
-    @speed = 0
-  end
+
+  attr_reader :wagons, :number
 
   def add_speed(speed)
     @speed += speed
   end
 
   def current_speed
-    return_speed
+    puts "Текущая скорость: #{self.speed}"
   end
 
   def reduce_speed
@@ -18,62 +16,104 @@ class Train
 
   def take_route(route)
     @route = route
-    first_station_route!
+    @index = 0
+    first_station
   end
 
-  def move_next
-    move_next_station! if train_current_station?
+  def attach_wagons(wagon)
+    if minimal_speed?
+      if wagon.is_a? PassWagon
+        if self.is_a? PassTrain
+          @wagons << wagon
+        end
+      elsif wagon.is_a? CargoWagon
+        if self.is_a? CargoTrain
+          @wagons << wagon
+        end
+      end
+    else
+      puts "Поезд в движении"
+    end
+  end
+
+  def unhook_wagons
+    if minimal_speed?
+      if self.is_a? PassTrain
+        @wagons.pop
+      end
+      if self.is_a? CargoTrain
+        @wagons.pop
+      end
+    else
+      puts "Поезд в движении"
+    end
+  end
+
+  def move_forward
+    move_next_station if train_send_station
   end
 
   def move_back
-    move_back_station! if train_current_station?
+    move_back_station if train_send_station
   end
 
-  def station_previous?
-    station_previous!
+  def station_previous
+    previous_station_route
+  end
 
   def station_current
-    station_current!
+    current_station_route
+  end
 
-  def station_next?
-    station_next!
+  def station_next
+    next_station_route
+  end
+
+  def info
+    puts "Поезд номер: #{self.number}, с количеством вагонов #{self.wagons}" #данный метод относится именно к поезду пассажирский ведь вагоны - пассажирские.
+  end
 
   protected
 
-  attr_reader :speed, :qty_wagons
+  attr_reader :speed
 
-  def return_speed
-    "Текущая скорость: #{self.speed}" # данные методы, установлены в protected, так как они используются в подклассах, а также, метод должен возвращать скорость, а не напрямую вызывая его у экземпляра
+  def initialize(number)
+    @number = number
+    @speed = 0
+    @wagons = []
   end
 
-  def first_station_route! #данный метод следует для всех объектов подклассов, он является атоматическим, вызывать его и проверять нет необходимости.
-    @index = 0
-    @route.list_station[index].take_train(self)
+  def minimal_speed? # частичка метода увеличение количества вагонов. Этот метод, деталь реалазиции данного метода, и в явную он не пригодится, поэтому он был скрыт. 
+    self.speed.zero?
   end
 
-  def train_current_station_send? #данный метод ,также скрыт, ведь это также часть реализации, которую не должен видеть пользователь. Он ведь только проверяет где сейчас поезд.
-    current_station!.send_train(self)
+  def first_station #данный метод следует для всех объектов подклассов, он является атоматическим, вызывать его и проверять нет необходимости.
+    @route.stations[@index].take_train(self)
   end
 
-  def move_next_station! #методы анологичны. Все реализация. Мы упростили. Мы создали один метод - текущая станция, от которой он будет двигаться.
-    next_station!.take_train(self)
+  def train_send_station #данный метод ,также скрыт, ведь это также часть реализации, которую не должен видеть пользователь. Он ведь только проверяет где сейчас поезд.
+    current_station_route.send_train(self)
+  end
+
+  def move_next_station #методы анологичны. Все реализация. Мы упростили. Мы создали один метод - текущая станция, от которой он будет двигаться.
+    next_station_route.take_train(self)
     @index += 1
   end
 
-  def move_back_station! #анологично выше
-    next_station!.take_train(self)
+  def move_back_station #анологично выше
+    previous_station_route.take_train(self)
     @index -= 1
   end
 
-  def station_previous! #метод также возможен в использовании подклассов. Ведь все поезда могут запросить предыдущую/текущую/следующую станцию. Но это также часть реализации, которая не нужна пользователю.
-    @route.list_station[index - 1]
+  def previous_station_route #метод также возможен в использовании подклассов. Ведь все поезда могут запросить предыдущую/текущую/следующую станцию. Но это также часть реализации, которая не нужна пользователю.
+    puts @route.stations[@index - 1].name
   end
 
-  def current_station!
-    @route.list_station[index]
+  def current_station_route
+    puts @route.stations[@index].name
   end
 
-  def next_station!
-    @route.list_station[index + 1]
+  def next_station_route
+    puts @route.stations[@index + 1].name
   end
 end

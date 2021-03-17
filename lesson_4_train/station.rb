@@ -13,7 +13,7 @@ class Station
   def info_train
     puts "Список поездов на станции: "
     trains.each do |train|
-      puts "Поезд с номером #{train.number}, #{train.type} тип, с количетсвом вагонов - #{train.qty_wagons}."
+      puts "Поезд с номером #{train.number}, #{train.class} тип, с количетсвом вагонов - #{train.wagons}."
     end
   end
 
