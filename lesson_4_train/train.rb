@@ -14,12 +14,6 @@ class Train
     @speed = 0
   end
 
-  def take_route(route)
-    @route = route
-    @index = 0
-    first_station
-  end
-
   def attach_wagons(wagon)
     if minimal_speed?
       if wagon.is_a? PassWagon
@@ -49,12 +43,18 @@ class Train
     end
   end
 
+  def take_route(route)
+    @route = route
+    @index = 0
+    first_station
+  end
+
   def move_forward
-    move_next_station if train_send_station
+    move_next_station
   end
 
   def move_back
-    move_back_station if train_send_station
+    move_back_station
   end
 
   def station_previous
@@ -91,29 +91,27 @@ class Train
     @route.stations[@index].take_train(self)
   end
 
-  def train_send_station #данный метод ,также скрыт, ведь это также часть реализации, которую не должен видеть пользователь. Он ведь только проверяет где сейчас поезд.
-    current_station_route.send_train(self)
-  end
-
   def move_next_station #методы анологичны. Все реализация. Мы упростили. Мы создали один метод - текущая станция, от которой он будет двигаться.
+    current_station_route.send_train(self)
     next_station_route.take_train(self)
     @index += 1
   end
 
   def move_back_station #анологично выше
+    current_station_route.send_train(self)
     previous_station_route.take_train(self)
     @index -= 1
   end
 
   def previous_station_route #метод также возможен в использовании подклассов. Ведь все поезда могут запросить предыдущую/текущую/следующую станцию. Но это также часть реализации, которая не нужна пользователю.
-    puts @route.stations[@index - 1].name
+    @route.stations[@index - 1]
   end
 
   def current_station_route
-    puts @route.stations[@index].name
+    @route.stations[@index]
   end
 
   def next_station_route
-    puts @route.stations[@index + 1].name
+    @route.stations[@index + 1]
   end
 end

@@ -1,4 +1,3 @@
-require_relative 'Railway_project.rb'
 require_relative 'station.rb'
 require_relative 'route.rb'
 require_relative 'train.rb'
@@ -60,11 +59,14 @@ class Railway
         print "Введите ваш ответ: "
         route_answer = gets.to_i
         puts "Список станций: "
-        @stations.each_with_index do |station, index|
-          print index
-          print ' - '
-          puts station.name
+        def info_stations
+          @stations.each_with_index do |station, index|
+            print index
+            print ' - '
+            puts station.name
+          end
         end
+        info_stations
         case route_answer
         when 1
           print "Введите номер начальной станции: " 
@@ -75,11 +77,14 @@ class Railway
           @routes << route
         when 2
           puts "Выберете маршрут в который необходимо добавить/удалить промежуточную станцию: "
-          @routes.each_with_index do |route, index|
-            print index
-            print ' - '
-            puts "Маршрут: #{route}. Начальная станция: #{route.stations[0].name} - Конечная станция:  #{route.stations[-1].name}."
+          def info_routes
+            @routes.each_with_index do |route, index|
+              print index
+              print ' - '
+              puts "Маршрут: #{route}. Начальная станция: #{route.stations[0].name} - Конечная станция:  #{route.stations[-1].name}."
+            end
           end
+          info_routes
           print "Введите номер маршрута: "
           answer_route = gets.to_i
           puts "Введите 1 - для добавление промежуточной станции"
@@ -91,30 +96,27 @@ class Railway
             print "Введите номер станции которую добавить: "
             station = @stations[gets.to_i]
             @routes[answer_route].add_station(station)
-            puts "Список станций: "
           when 2 
             print "Введите номер станции которую удалить: "
             station = @stations[gets.to_i]
-            @routes[answer_route].delete(station)
-            puts "Список станций: "
+            @routes[answer_route].remove_station(station)
           end
         end
 
       when 4
         puts "Введите цифру, какому поезду вы хотите присвоить маршрут: " 
-        @trains.each_with_index do |train, index|
-          print index
-          print ' - '
-          puts "Поезд с номером #{train.number}, типа #{train.class} с количеством вагонов"
+        def info_trains
+          @trains.each_with_index do |train, index|
+            print index
+            print ' - '
+          train.info
+          end
         end
+        info_trains
         print "Ваш ответ: "
         answer_train = gets.to_i
         puts "Какой маршрут присвоить поезду: "
-        @routes.each_with_index do |route, index|
-          print index
-          print ' - '
-          puts "Маршрут: #{route}. Начальная станция: #{route.stations[0].name} - Конечная станция:  #{route.stations[-1].name}."
-        end
+        info_routes 
         print "Ваш ответ: "
         answer_route = gets.to_i
         route_train = @routes[answer_route]
@@ -128,26 +130,32 @@ class Railway
         case answer_wagon
         when 1
           puts "К какому пассажирскому поезду вы хотите прицепить вагон: "
-          @trains.each_with_index do |train, index|
-            if train.class == PassTrain
-              print index
-              print " - "
-            train.info
+          def info_pass_train
+            @trains.each_with_index do |train, index|
+              if train.class == PassTrain
+                print index
+                print " - "
+              train.info
+              end
             end
           end
+          info_pass_train
           print "Ваш ответ: "
           answer_trains = gets.to_i
           wagon = PassWagon.new
           @trains[answer_trains].attach_wagons(wagon)
         when 2
           puts "К какому грузовому поезду вы хотите прицепить вагон: "
-          @trains.each_with_index do |train, index|
-            if train.class == CargoTrain
-              print index
-              print " - "
-            train.info
+          def info_cargo_train
+            @trains.each_with_index do |train, index|
+              if train.class == CargoTrain
+                print index
+                print " - "
+              train.info
+              end
             end
           end
+          info_cargo_train
           print "Ваш ответ: "
           answer_trains = gets.to_i
           wagon = CargoWagon.new
@@ -161,37 +169,21 @@ class Railway
         case answer_wagon
         when 1
           puts "У какого пассажирского поезда вы хотите отцепить вагон: "
-          @trains.each_with_index do |train, index|
-            if train.class == PassTrain
-              print index
-              print " - "
-            train.info
-            end
-          end
+          info_pass_train
           print "Ваш ответ: "
           answer_trains = gets.to_i
           @trains[answer_trains].unhook_wagons
         when 2
           puts "У какого грузового поезда вы хотите отцепить вагон: "
-          @trains.each_with_index do |train, index|
-            if train.class == CargoTrain
-              print index
-              print " - "
-            train.info
-            end
-          end
+          info_cargo_train
           print "Ваш ответ: "
           answer_trains = gets.to_i
           @trains[answer_trains].unhook_wagons
         end
 
       when 7 
-        puts "Выберите "
-        @trains.each_with_index do |train, index|
-          print index
-          print " - "
-        train.info
-        end
+        puts "Выберите поезд "
+        info_trains
         print "Ваш ответ: "
         answer_train = gets.to_i
         puts "Введите 1 - для передвижения вперед"
@@ -221,11 +213,7 @@ class Railway
         end
       when 8
         puts "Список станций: " 
-        @stations.each_with_index do |station, index|
-          print index
-          print ' - '
-          puts "Станция: #{station.name}"
-        end
+        info_stations
         print "Введите цифру станции, для просмотра на ней станции: "
         answer_station = gets.to_i
         @stations[answer_station].info_train
