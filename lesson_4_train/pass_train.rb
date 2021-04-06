@@ -1,9 +1,10 @@
 class PassTrain < Train
+
   def initialize(number)
     super
   end
 
-  def attach_wagon(wagon)
+  def attach_wagons(wagon)
     if minimal_speed?
       if wagon.is_a? PassWagon
         @wagons << wagon

@@ -1,20 +1,22 @@
 require_relative './station'
 require_relative './route'
 require_relative './train'
-require_relative './PassTrain' #большие буквы, нижнее подчеркивание pass_train
-require_relative './CargoTrain'
+require_relative './pass_train'
+require_relative './cargo_train'
 require_relative './wagon'
-require_relative './PassWagon'
-require_relative './CargoWagon'
+require_relative './pass_wagon'
+require_relative './cargo_wagon'
 
 class Railway
 
   attr_reader :trains, :routes, :stations, :wagons
+
   def initialize
     @trains = []
     @routes = []
     @stations = []
   end
+
   def menu
     loop do
       puts "Добро пожаловать в железную дорогу!"
@@ -55,7 +57,7 @@ class Railway
 
       when 3
         puts "Введите 1 - для назначения начальной и конечной станции"
-        puts "Введите 2 - для добавления промежуточной/удаление станции"
+        puts "Введите 2 - для добавления/удаление промежуточной станции"
         print "Введите ваш ответ: "
         route_answer = gets.to_i
         puts "Список станций: "
@@ -101,7 +103,7 @@ class Railway
         route_train = @routes[answer_route]
         @trains[answer_train].take_route(route_train)
 
-      when 5 # правильно считать кол. поезда
+      when 5
         puts "Введите 1 - для добавления вагона к пассажирскому поезду"
         puts "Введите 2 - для добавления вагона к грузовому поезду"
         print "Ваш ответ: "
@@ -122,9 +124,10 @@ class Railway
           wagon = CargoWagon.new
           @trains[answer_trains].attach_wagons(wagon)
         end
+
       when 6
-         puts "Введите 1 - для отцепления вагона к пассажирскому поезду"
-        puts "Введите 2 - для отцепления вагона к грузовому поезду"
+        puts "Введите 1 - для отцепления вагона от пассажирского поезду"
+        puts "Введите 2 - для отцепления вагона от грузового поезду"
         print "Ваш ответ: "
         answer_wagon = gets.to_i
         case answer_wagon
@@ -172,10 +175,11 @@ class Railway
             @trains[answer_train].station_next
           end
         end
+
       when 8
         puts "Список станций: "
         info_stations
-        print "Введите цифру станции, для просмотра на ней станции: "
+        print "Введите цифру станции, для просмотра на ней списка поездов: "
         answer_station = gets.to_i
         @stations[answer_station].info_train
       else
@@ -231,6 +235,3 @@ class Railway
     end
   end
 end
-
-Railway.new.menu
-

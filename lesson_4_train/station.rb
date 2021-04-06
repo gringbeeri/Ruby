@@ -1,4 +1,5 @@
 class Station
+
   attr_reader :name, :trains
 
   def initialize(name)
@@ -32,10 +33,3 @@ class Station
     trains.delete(train)
   end
 end
-
-station_1 = Station.new("Kiev")
-
-train_1 = PassTrain.new(26)
-train_2 = PassTrain.new(588)
-
-station_1.take_train(train_1)
