@@ -1,11 +1,11 @@
-require_relative 'station.rb'
-require_relative 'route.rb'
-require_relative 'train.rb'
-require_relative 'PassTrain.rb'
-require_relative 'CargoTrain.rb'
-require_relative 'wagon.rb'
-require_relative 'PassWagon.rb'
-require_relative 'CargoWagon.rb'
+require_relative './station'
+require_relative './route'
+require_relative './train'
+require_relative './PassTrain' #большие буквы, нижнее подчеркивание pass_train
+require_relative './CargoTrain'
+require_relative './wagon'
+require_relative './PassWagon'
+require_relative './CargoWagon'
 
 class Railway
 
@@ -18,19 +18,19 @@ class Railway
   def menu
     loop do
       puts "Добро пожаловать в железную дорогу!"
-      puts "Введите 1 - для создания станции" #+
-      puts "Введите 2 - для создания поезда" #+
-      puts "Введите 3 - для создания маршрута и управления станций в нем(добавлять/удалять)" # + 
-      puts "Введите 4 - для назначения маршрута поезду" # + 
-      puts "Введите 5 - для добавления вагона к поезду" # +
-      puts "Введите 6 - для отцепления вагона от поезда" # + 
-      puts "Введите 7 - для перемещение поезда по маршруту вперед и назад" #
-      puts "Введите 8 - для просмотра списка станций и списка поездов на станции" # + 
-      puts "Введите 9 - для выхода из программы" # + 
+      puts "Введите 1 - для создания станции"
+      puts "Введите 2 - для создания поезда"
+      puts "Введите 3 - для создания маршрута и управления станций в нем(добавлять/удалять)"
+      puts "Введите 4 - для назначения маршрута поезду"
+      puts "Введите 5 - для добавления вагона к поезду"
+      puts "Введите 6 - для отцепления вагона от поезда"
+      puts "Введите 7 - для перемещение поезда по маршруту вперед и назад"
+      puts "Введите 8 - для просмотра списка станций и списка поездов на станции"
+      puts "Введите 9 - для выхода из программы"
       print "Ваш ответ: "
       answer = gets.to_i
-    
-      case answer 
+
+      case answer
       when 1
         print "Введите название станции: "
         name_station = gets.chomp
@@ -59,31 +59,17 @@ class Railway
         print "Введите ваш ответ: "
         route_answer = gets.to_i
         puts "Список станций: "
-        def info_stations
-          @stations.each_with_index do |station, index|
-            print index
-            print ' - '
-            puts station.name
-          end
-        end
         info_stations
         case route_answer
         when 1
-          print "Введите номер начальной станции: " 
+          print "Введите номер начальной станции: "
           start_station = @stations[gets.to_i]
-          print "Введите номер конечной станции: " 
+          print "Введите номер конечной станции: "
           end_station = @stations[gets.to_i]
           route = Route.new(start_station, end_station)
           @routes << route
         when 2
           puts "Выберете маршрут в который необходимо добавить/удалить промежуточную станцию: "
-          def info_routes
-            @routes.each_with_index do |route, index|
-              print index
-              print ' - '
-              puts "Маршрут: #{route}. Начальная станция: #{route.stations[0].name} - Конечная станция:  #{route.stations[-1].name}."
-            end
-          end
           info_routes
           print "Введите номер маршрута: "
           answer_route = gets.to_i
@@ -96,7 +82,7 @@ class Railway
             print "Введите номер станции которую добавить: "
             station = @stations[gets.to_i]
             @routes[answer_route].add_station(station)
-          when 2 
+          when 2
             print "Введите номер станции которую удалить: "
             station = @stations[gets.to_i]
             @routes[answer_route].remove_station(station)
@@ -104,25 +90,18 @@ class Railway
         end
 
       when 4
-        puts "Введите цифру, какому поезду вы хотите присвоить маршрут: " 
-        def info_trains
-          @trains.each_with_index do |train, index|
-            print index
-            print ' - '
-          train.info
-          end
-        end
+        puts "Введите цифру, какому поезду вы хотите присвоить маршрут: "
         info_trains
         print "Ваш ответ: "
         answer_train = gets.to_i
         puts "Какой маршрут присвоить поезду: "
-        info_routes 
+        info_routes
         print "Ваш ответ: "
         answer_route = gets.to_i
         route_train = @routes[answer_route]
         @trains[answer_train].take_route(route_train)
 
-      when 5
+      when 5 # правильно считать кол. поезда
         puts "Введите 1 - для добавления вагона к пассажирскому поезду"
         puts "Введите 2 - для добавления вагона к грузовому поезду"
         print "Ваш ответ: "
@@ -130,15 +109,6 @@ class Railway
         case answer_wagon
         when 1
           puts "К какому пассажирскому поезду вы хотите прицепить вагон: "
-          def info_pass_train
-            @trains.each_with_index do |train, index|
-              if train.class == PassTrain
-                print index
-                print " - "
-              train.info
-              end
-            end
-          end
           info_pass_train
           print "Ваш ответ: "
           answer_trains = gets.to_i
@@ -146,22 +116,13 @@ class Railway
           @trains[answer_trains].attach_wagons(wagon)
         when 2
           puts "К какому грузовому поезду вы хотите прицепить вагон: "
-          def info_cargo_train
-            @trains.each_with_index do |train, index|
-              if train.class == CargoTrain
-                print index
-                print " - "
-              train.info
-              end
-            end
-          end
           info_cargo_train
           print "Ваш ответ: "
           answer_trains = gets.to_i
           wagon = CargoWagon.new
           @trains[answer_trains].attach_wagons(wagon)
         end
-      when 6 
+      when 6
          puts "Введите 1 - для отцепления вагона к пассажирскому поезду"
         puts "Введите 2 - для отцепления вагона к грузовому поезду"
         print "Ваш ответ: "
@@ -181,7 +142,7 @@ class Railway
           @trains[answer_trains].unhook_wagons
         end
 
-      when 7 
+      when 7
         puts "Выберите поезд "
         info_trains
         print "Ваш ответ: "
@@ -212,15 +173,64 @@ class Railway
           end
         end
       when 8
-        puts "Список станций: " 
+        puts "Список станций: "
         info_stations
         print "Введите цифру станции, для просмотра на ней станции: "
         answer_station = gets.to_i
         @stations[answer_station].info_train
       else
-        break answer 
+        break answer
         puts "Вы вышли из программы"
       end
     end
   end
+
+  private
+
+  def info_stations
+    @stations.each_with_index do |station, index|
+      print index
+      print ' - '
+      puts station.name
+    end
+  end
+
+  def info_routes
+    @routes.each_with_index do |route, index|
+      print index
+      print ' - '
+      puts "Маршрут: #{route}. Начальная станция: #{route.stations[0].name} - Конечная станция:  #{route.stations[-1].name}."
+    end
+  end
+
+  def info_pass_train
+    @trains.each_with_index do |train, index|
+      if train.class == PassTrain
+        print index
+        print " - "
+      train.info
+      end
+    end
+  end
+
+  def info_cargo_train
+    @trains.each_with_index do |train, index|
+      if train.class == CargoTrain
+        print index
+        print " - "
+      train.info
+      end
+    end
+  end
+
+  def info_trains
+    @trains.each_with_index do |train, index|
+      print index
+      print ' - '
+    train.info
+    end
+  end
 end
+
+Railway.new.menu
+

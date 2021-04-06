@@ -19,8 +19,6 @@ class Route
 
   def info_route
     puts "Список станций в маршруте: "
-    stations.each do |station|
-      puts station
-    end
+    stations.each { |station| puts station.name }
   end
 end
