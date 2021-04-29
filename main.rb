@@ -1,3 +1,5 @@
+require_relative './module_brend'
+require_relative './module_instance_counter'
 require_relative './station'
 require_relative './route'
 require_relative './train'
@@ -14,7 +16,7 @@ class Railway
   def initialize
     @trains = []
     @routes = []
-    @@object_station = []
+    @stations = []
   end
 
   def menu
@@ -37,7 +39,7 @@ class Railway
         print "Введите название станции: "
         name_station = gets.chomp
         station = Station.new(name_station)
-        @@object_station << station
+        @stations << station
 
       when 2
         puts "Введите 1 - для создания пассажирского поезда"
@@ -65,9 +67,9 @@ class Railway
         case route_answer
         when 1
           print "Введите номер начальной станции: "
-          start_station = @@object_station[gets.to_i]
+          start_station = @stations[gets.to_i]
           print "Введите номер конечной станции: "
-          end_station = @@object_station[gets.to_i]
+          end_station = @stations[gets.to_i]
           route = Route.new(start_station, end_station)
           @routes << route
         when 2
@@ -82,11 +84,11 @@ class Railway
           case answer_station
           when 1
             print "Введите номер станции которую добавить: "
-            station = @@object_station[gets.to_i]
+            station = @stations[gets.to_i]
             @routes[answer_route].add_station(station)
           when 2
             print "Введите номер станции которую удалить: "
-            station = @@object_station[gets.to_i]
+            station = @stations[gets.to_i]
             @routes[answer_route].remove_station(station)
           end
         end
@@ -181,7 +183,7 @@ class Railway
         Station.all
         print "Введите цифру станции, для просмотра на ней списка поездов: "
         answer_station = gets.to_i
-        @@object_station[answer_station].info_train
+        @stations[answer_station].info_train
       else
         break answer
         puts "Вы вышли из программы"
@@ -227,3 +229,5 @@ class Railway
     end
   end
 end
+
+Railway.new.menu
