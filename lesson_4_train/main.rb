@@ -30,39 +30,33 @@ class Railway
       puts "Введите 8 - для просмотра списка станций и списка поездов на станции"
       puts "Введите 9 - для выхода из программы"
       print "Ваш ответ: "
-      answer = gets.to_i
 
-      case answer
+      case gets.to_i
       when 1
         print "Введите название станции: "
-        name_station = gets.chomp
-        @stations << Station.new(name_station)
+        @stations << Station.new(gets.chomp)
 
       when 2
         puts "Введите 1 - для создания пассажирского поезда"
         puts "Введите 2 - для создания грузового поезда"
         print "Ваш ответ: "
-        answer_train = gets.to_i
-        case answer_train
+        case gets.to_i
         when 1
           print "Введите номер пассажирского поезда: "
-          pass_train = gets.to_i
-          @trains << PassTrain.new(pass_train)
+          @trains << PassTrain.new(gets.to_i)
         when 2
           print "Введите номер грузового поезда: "
-          cargo_train = gets.to_i
-          @trains << CargoTrain.new(cargo_train)
+          @trains << CargoTrain.new(gets.to_i)
         end
 
       when 3
         puts "Введите 1 - для назначения начальной и конечной станции"
         puts "Введите 2 - для добавления/удаление промежуточной станции"
         print "Введите ваш ответ: "
-        route_answer = gets.to_i
-        puts "Список станций: "
-        info_stations
-        case route_answer
+        case gets.to_i
         when 1
+          puts "Список станций: "
+          info_stations
           print "Введите номер начальной станции: "
           start_station = @stations[gets.to_i]
           print "Введите номер конечной станции: "
@@ -76,8 +70,7 @@ class Railway
           puts "Введите 1 - для добавление промежуточной станции"
           puts "Введите 2 - для удаление промежуточной станции"
           print "Ваш ответ: "
-          answer_station = gets.to_i
-          case answer_station
+          case gets.to_i
           when 1
             print "Введите номер станции которую добавить: "
             station = @stations[gets.to_i]
@@ -97,16 +90,14 @@ class Railway
         puts "Какой маршрут присвоить поезду: "
         info_routes
         print "Ваш ответ: "
-        answer_route = gets.to_i
-        route_train = @routes[answer_route]
+        route_train = @routes[gets.to_i]
         @trains[answer_train].take_route(route_train)
 
       when 5
         puts "Введите 1 - для добавления вагона к пассажирскому поезду"
         puts "Введите 2 - для добавления вагона к грузовому поезду"
         print "Ваш ответ: "
-        answer_wagon = gets.to_i
-        case answer_wagon
+        case gets.to_i
         when 1
           puts "К какому пассажирскому поезду вы хотите прицепить вагон: "
           info_pass_train
@@ -127,20 +118,17 @@ class Railway
         puts "Введите 1 - для отцепления вагона от пассажирского поезду"
         puts "Введите 2 - для отцепления вагона от грузового поезду"
         print "Ваш ответ: "
-        answer_wagon = gets.to_i
-        case answer_wagon
+        case gets.to_i
         when 1
           puts "У какого пассажирского поезда вы хотите отцепить вагон: "
           info_pass_train
           print "Ваш ответ: "
-          answer_trains = gets.to_i
-          @trains[answer_trains].unhook_wagons
+          @trains[gets.to_i].unhook_wagons
         when 2
           puts "У какого грузового поезда вы хотите отцепить вагон: "
           info_cargo_train
           print "Ваш ответ: "
-          answer_trains = gets.to_i
-          @trains[answer_trains].unhook_wagons
+          @trains[gets.to_i].unhook_wagons
         end
 
       when 7
@@ -152,8 +140,7 @@ class Railway
         puts "Введите 2 - для передвижения назад"
         puts "Введите 3 - для инфрмации о предыдущей/текущей/следующей станции"
         print "Ваш ответ: "
-        answer = gets.to_i
-        case answer
+        case gets.to_i
         when 1
           @trains[answer_train].move_forward
         when 2
@@ -178,8 +165,7 @@ class Railway
         puts "Список станций: "
         info_stations
         print "Введите цифру станции, для просмотра на ней списка поездов: "
-        answer_station = gets.to_i
-        @stations[answer_station].info_train
+        @stations[gets.to_i].info_train
       else
         break answer
         puts "Вы вышли из программы"
@@ -191,9 +177,7 @@ class Railway
 
   def info_stations
     @stations.each_with_index do |station, index|
-      print index
-      print ' - '
-      puts station.name
+      puts "#{index} - #{station.name}"
     end
   end
 
@@ -208,9 +192,8 @@ class Railway
   def info_pass_train
     @trains.each_with_index do |train, index|
       if train.class == PassTrain
-        print index
-        print " - "
-      train.info
+        print "#{index} - "
+        train.info
       end
     end
   end
@@ -218,18 +201,16 @@ class Railway
   def info_cargo_train
     @trains.each_with_index do |train, index|
       if train.class == CargoTrain
-        print index
-        print " - "
-      train.info
+        print "#{index} - "
+        train.info
       end
     end
   end
 
   def info_trains
     @trains.each_with_index do |train, index|
-      print index
-      print ' - '
-    train.info
+      print "#{index} - "
+      train.info
     end
   end
 end

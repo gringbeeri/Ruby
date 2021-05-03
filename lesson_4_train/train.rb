@@ -47,14 +47,14 @@ class Train
 
   def move_next_station
     current_station_route.send_train(self)
-    next_station_route.take_train(self)
     @index += 1
+    current_station_route.take_train(self)
   end
 
   def move_back_station
     current_station_route.send_train(self)
-    previous_station_route.take_train(self)
-    @index -= 1
+    @index += 1
+    current_station_route.take_train(self)
   end
 
   def previous_station_route
