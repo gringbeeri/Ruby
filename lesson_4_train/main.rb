@@ -36,8 +36,7 @@ class Railway
       when 1
         print "Введите название станции: "
         name_station = gets.chomp
-        station = Station.new(name_station)
-        @stations << station
+        @stations << Station.new(name_station)
 
       when 2
         puts "Введите 1 - для создания пассажирского поезда"
@@ -68,8 +67,7 @@ class Railway
           start_station = @stations[gets.to_i]
           print "Введите номер конечной станции: "
           end_station = @stations[gets.to_i]
-          route = Route.new(start_station, end_station)
-          @routes << route
+          @routes << Route.new(start_station, end_station)
         when 2
           puts "Выберете маршрут в который необходимо добавить/удалить промежуточную станцию: "
           info_routes
