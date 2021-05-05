@@ -1,2 +1,0 @@
-class PassWagon < Wagon
-end
