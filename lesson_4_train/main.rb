@@ -1,3 +1,5 @@
+require_relative './module_brend'
+require_relative './module_instance_counter'
 require_relative './station'
 require_relative './route'
 require_relative './train'
@@ -56,7 +58,7 @@ class Railway
         case gets.to_i
         when 1
           puts "Список станций: "
-          info_stations
+          Station.all
           print "Введите номер начальной станции: "
           start_station = @stations[gets.to_i]
           print "Введите номер конечной станции: "
@@ -142,9 +144,9 @@ class Railway
         print "Ваш ответ: "
         case gets.to_i
         when 1
-          @trains[answer_train].move_forward
+          @trains[answer_train].move_next_station
         when 2
-          @trains[answer_train].move_back
+          @trains[answer_train].move_back_station
         when 3
           puts "Введите 1 - для информации о предыдущей станции"
           puts "Введите 2 - для информации о текущей станции"
@@ -153,17 +155,17 @@ class Railway
           answer_station = gets.to_i
           case answer_station
           when 1
-            @trains[answer_train].station_previous
+            @trains[answer_train].previous_station_route
           when 2
-            @trains[answer_train].station_current
+            @trains[answer_train].current_station_route
           when 3
-            @trains[answer_train].station_next
+            @trains[answer_train].next_station_route
           end
         end
 
       when 8
         puts "Список станций: "
-        info_stations
+        Station.all
         print "Введите цифру станции, для просмотра на ней списка поездов: "
         @stations[gets.to_i].info_train
       else

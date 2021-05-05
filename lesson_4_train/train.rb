@@ -1,6 +1,19 @@
 class Train
+  include InstanceCounter
+  include Brend
 
   attr_reader :wagons, :number
+
+  @@trains = []
+
+  def self.find(number_train)
+    @@trains.each do |train|
+      if number_train == train.number
+        puts train
+      else
+      end
+    end
+  end
 
   def initialize(number)
     raise "Данный объект класса создать нельзя" if self.class.to_s == "Train"
@@ -8,6 +21,7 @@ class Train
     @number = number
     @speed = 0
     @wagons = []
+    @@trains << self
   end
 
   def add_speed(speed)
@@ -53,7 +67,7 @@ class Train
 
   def move_back_station
     current_station_route.send_train(self)
-    @index += 1
+    @index -= 1
     current_station_route.take_train(self)
   end
 

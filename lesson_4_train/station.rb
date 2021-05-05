@@ -1,10 +1,22 @@
 class Station
+  include InstanceCounter
+
+  @@object_station = []
+
+  def self.all
+    @@object_station.each_with_index do |station, index|
+      print index
+      print ' - '
+      puts station.name
+    end
+  end
 
   attr_reader :name, :trains
 
   def initialize(name)
     @name = name
     @trains = []
+    @@object_station << self
   end
 
   def take_train(train)
