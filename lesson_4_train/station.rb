@@ -1,10 +1,26 @@
 class Station
+  include InstanceCounter
+
+  @@stations = []
+
+  def self.all
+    @@stations.each do |station|
+      station
+    end
+  end
+
+  def self.all_with_info
+    all.each_with_index do |station, index|
+      puts "#{index} - #{station.name}"
+    end
+  end
 
   attr_reader :name, :trains
 
   def initialize(name)
     @name = name
     @trains = []
+    @@stations << self
   end
 
   def take_train(train)

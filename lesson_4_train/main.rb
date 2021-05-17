@@ -1,3 +1,5 @@
+require_relative './module_brend'
+require_relative './module_instance_counter'
 require_relative './station'
 require_relative './route'
 require_relative './train'
@@ -30,8 +32,8 @@ class Railway
       puts "Введите 8 - для просмотра списка станций и списка поездов на станции"
       puts "Введите 9 - для выхода из программы"
       print "Ваш ответ: "
-
       case gets.to_i
+
       when 1
         print "Введите название станции: "
         @stations << Station.new(gets.chomp)
@@ -56,7 +58,7 @@ class Railway
         case gets.to_i
         when 1
           puts "Список станций: "
-          info_stations
+          Station.all_with_info
           print "Введите номер начальной станции: "
           start_station = @stations[gets.to_i]
           print "Введите номер конечной станции: "
@@ -64,7 +66,7 @@ class Railway
           @routes << Route.new(start_station, end_station)
         when 2
           puts "Выберете маршрут в который необходимо добавить/удалить промежуточную станцию: "
-          info_routes
+          Route.all_with_info
           print "Введите номер маршрута: "
           answer_route = gets.to_i
           puts "Введите 1 - для добавление промежуточной станции"
@@ -84,11 +86,11 @@ class Railway
 
       when 4
         puts "Введите цифру, какому поезду вы хотите присвоить маршрут: "
-        info_trains
+        Train.all_with_info
         print "Ваш ответ: "
         answer_train = gets.to_i
         puts "Какой маршрут присвоить поезду: "
-        info_routes
+        Route.all_with_info
         print "Ваш ответ: "
         route_train = @routes[gets.to_i]
         @trains[answer_train].take_route(route_train)
@@ -133,7 +135,7 @@ class Railway
 
       when 7
         puts "Выберите поезд "
-        info_trains
+        Train.all_with_info
         print "Ваш ответ: "
         answer_train = gets.to_i
         puts "Введите 1 - для передвижения вперед"
@@ -142,9 +144,9 @@ class Railway
         print "Ваш ответ: "
         case gets.to_i
         when 1
-          @trains[answer_train].move_forward
+          @trains[answer_train].move_next_station
         when 2
-          @trains[answer_train].move_back
+          @trains[answer_train].move_back_station
         when 3
           puts "Введите 1 - для информации о предыдущей станции"
           puts "Введите 2 - для информации о текущей станции"
@@ -153,17 +155,17 @@ class Railway
           answer_station = gets.to_i
           case answer_station
           when 1
-            @trains[answer_train].station_previous
+            @trains[answer_train].previous_station_route
           when 2
-            @trains[answer_train].station_current
+            @trains[answer_train].current_station_route
           when 3
-            @trains[answer_train].station_next
+            @trains[answer_train].next_station_route
           end
         end
 
       when 8
         puts "Список станций: "
-        info_stations
+        Station.all_with_info
         print "Введите цифру станции, для просмотра на ней списка поездов: "
         @stations[gets.to_i].info_train
       else
@@ -174,20 +176,6 @@ class Railway
   end
 
   private
-
-  def info_stations
-    @stations.each_with_index do |station, index|
-      puts "#{index} - #{station.name}"
-    end
-  end
-
-  def info_routes
-    @routes.each_with_index do |route, index|
-      print index
-      print ' - '
-      puts "Маршрут: #{route}. Начальная станция: #{route.stations[0].name} - Конечная станция:  #{route.stations[-1].name}."
-    end
-  end
 
   def info_pass_train
     @trains.each_with_index do |train, index|
@@ -204,13 +192,6 @@ class Railway
         print "#{index} - "
         train.info
       end
-    end
-  end
-
-  def info_trains
-    @trains.each_with_index do |train, index|
-      print "#{index} - "
-      train.info
     end
   end
 end
