@@ -58,7 +58,7 @@ class Railway
         case gets.to_i
         when 1
           puts "Список станций: "
-          Station.all
+          Station.all_with_info
           print "Введите номер начальной станции: "
           start_station = @stations[gets.to_i]
           print "Введите номер конечной станции: "
@@ -66,7 +66,7 @@ class Railway
           @routes << Route.new(start_station, end_station)
         when 2
           puts "Выберете маршрут в который необходимо добавить/удалить промежуточную станцию: "
-          Route.all
+          Route.all_with_info
           print "Введите номер маршрута: "
           answer_route = gets.to_i
           puts "Введите 1 - для добавление промежуточной станции"
@@ -86,11 +86,11 @@ class Railway
 
       when 4
         puts "Введите цифру, какому поезду вы хотите присвоить маршрут: "
-        Train.all
+        Train.all_with_info
         print "Ваш ответ: "
         answer_train = gets.to_i
         puts "Какой маршрут присвоить поезду: "
-        Route.all
+        Route.all_with_info
         print "Ваш ответ: "
         route_train = @routes[gets.to_i]
         @trains[answer_train].take_route(route_train)
@@ -135,7 +135,7 @@ class Railway
 
       when 7
         puts "Выберите поезд "
-        Train.all
+        Train.all_with_info
         print "Ваш ответ: "
         answer_train = gets.to_i
         puts "Введите 1 - для передвижения вперед"
@@ -165,7 +165,7 @@ class Railway
 
       when 8
         puts "Список станций: "
-        Station.all
+        Station.all_with_info
         print "Введите цифру станции, для просмотра на ней списка поездов: "
         @stations[gets.to_i].info_train
       else

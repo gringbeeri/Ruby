@@ -4,7 +4,13 @@ class Station
   @@stations = []
 
   def self.all
-    @@stations.each_with_index do |station, index|
+    @@stations.each do |station|
+      station
+    end
+  end
+
+  def self.all_with_info
+    all.each_with_index do |station, index|
       puts "#{index} - #{station.name}"
     end
   end

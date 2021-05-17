@@ -4,10 +4,14 @@ class Route
   @@routes = []
 
   def self.all
-    @@routes.each_with_index do |route, index|
-      route.each do |station|
-      end
-    puts "#{index} - маршрут. Начальная станция: #{route[0].name}. Конечная станция: #{route[-1].name}."
+    @@routes.each do |route|
+      route
+    end
+  end
+
+  def self.all_with_info
+    all.each_with_index do |route, index|
+      puts "#{index} - маршрут. Начальная станция: #{route[0].name}. Конечная станция: #{route[-1].name}."
     end
   end
 

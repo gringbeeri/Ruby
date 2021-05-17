@@ -7,7 +7,13 @@ class Train
   @@trains = []
 
   def self.all
-    @@trains.each_with_index do |train, index|
+    @@trains.each do |train|
+      train
+    end
+  end
+
+  def self.all_with_info
+    all.each_with_index do |train, index|
       print "#{index} - "
       train.info
     end
