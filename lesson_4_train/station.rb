@@ -1,13 +1,11 @@
 class Station
   include InstanceCounter
 
-  @@object_station = []
+  @@stations = []
 
   def self.all
-    @@object_station.each_with_index do |station, index|
-      print index
-      print ' - '
-      puts station.name
+    @@stations.each_with_index do |station, index|
+      puts "#{index} - #{station.name}"
     end
   end
 
@@ -16,7 +14,7 @@ class Station
   def initialize(name)
     @name = name
     @trains = []
-    @@object_station << self
+    @@stations << self
   end
 
   def take_train(train)

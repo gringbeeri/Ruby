@@ -6,11 +6,19 @@ class Train
 
   @@trains = []
 
+  def self.all
+    @@trains.each_with_index do |train, index|
+      print "#{index} - "
+      train.info
+    end
+  end
+
   def self.find(number_train)
     @@trains.each do |train|
       if number_train == train.number
         puts train
       else
+        puts "Данного поезда не сущестует"
       end
     end
   end

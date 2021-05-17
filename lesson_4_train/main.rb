@@ -32,8 +32,8 @@ class Railway
       puts "Введите 8 - для просмотра списка станций и списка поездов на станции"
       puts "Введите 9 - для выхода из программы"
       print "Ваш ответ: "
-
       case gets.to_i
+
       when 1
         print "Введите название станции: "
         @stations << Station.new(gets.chomp)
@@ -66,7 +66,7 @@ class Railway
           @routes << Route.new(start_station, end_station)
         when 2
           puts "Выберете маршрут в который необходимо добавить/удалить промежуточную станцию: "
-          info_routes
+          Route.all
           print "Введите номер маршрута: "
           answer_route = gets.to_i
           puts "Введите 1 - для добавление промежуточной станции"
@@ -86,11 +86,11 @@ class Railway
 
       when 4
         puts "Введите цифру, какому поезду вы хотите присвоить маршрут: "
-        info_trains
+        Train.all
         print "Ваш ответ: "
         answer_train = gets.to_i
         puts "Какой маршрут присвоить поезду: "
-        info_routes
+        Route.all
         print "Ваш ответ: "
         route_train = @routes[gets.to_i]
         @trains[answer_train].take_route(route_train)
@@ -135,7 +135,7 @@ class Railway
 
       when 7
         puts "Выберите поезд "
-        info_trains
+        Train.all
         print "Ваш ответ: "
         answer_train = gets.to_i
         puts "Введите 1 - для передвижения вперед"
@@ -177,20 +177,6 @@ class Railway
 
   private
 
-  def info_stations
-    @stations.each_with_index do |station, index|
-      puts "#{index} - #{station.name}"
-    end
-  end
-
-  def info_routes
-    @routes.each_with_index do |route, index|
-      print index
-      print ' - '
-      puts "Маршрут: #{route}. Начальная станция: #{route.stations[0].name} - Конечная станция:  #{route.stations[-1].name}."
-    end
-  end
-
   def info_pass_train
     @trains.each_with_index do |train, index|
       if train.class == PassTrain
@@ -206,13 +192,6 @@ class Railway
         print "#{index} - "
         train.info
       end
-    end
-  end
-
-  def info_trains
-    @trains.each_with_index do |train, index|
-      print "#{index} - "
-      train.info
     end
   end
 end
