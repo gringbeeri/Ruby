@@ -1,5 +1,9 @@
 require_relative './module_brend'
 require_relative './module_instance_counter'
+require_relative './module_raise_route'
+require_relative './module_raise_station'
+require_relative './module_raise_train'
+require_relative './module_valid'
 require_relative './station'
 require_relative './route'
 require_relative './train'
@@ -11,7 +15,7 @@ require_relative './cargo_wagon'
 
 class Railway
 
-  attr_reader :trains, :routes, :stations, :wagons
+  attr_reader :trains, :routes, :stations
 
   def initialize
     @trains = []
@@ -36,7 +40,12 @@ class Railway
 
       when 1
         print "Введите название станции: "
-        @stations << Station.new(gets.chomp)
+        begin
+          @stations << Station.new(gets.chomp)
+        rescue TypeError => e
+          puts e.message
+          puts "Попробуйте создать станцию еще раз"
+        end
 
       when 2
         puts "Введите 1 - для создания пассажирского поезда"
@@ -45,10 +54,22 @@ class Railway
         case gets.to_i
         when 1
           print "Введите номер пассажирского поезда: "
-          @trains << PassTrain.new(gets.to_i)
+          begin
+            @trains << PassTrain.new(gets.to_i)
+            puts "Объект класса поезд создан"
+          rescue RuntimeError => e
+            puts e.message
+            puts 'Попробуйте создать пассажирский-поезд еще раз'
+          end
         when 2
           print "Введите номер грузового поезда: "
-          @trains << CargoTrain.new(gets.to_i)
+          begin
+            @trains << CargoTrain.new(gets.to_i)
+            puts "Объект класса поезд создан"
+          rescue RuntimeError => e
+            puts e.message
+            puts 'Попробуйте создать грузовой-поезд еще раз'
+          end
         end
 
       when 3
@@ -63,7 +84,13 @@ class Railway
           start_station = @stations[gets.to_i]
           print "Введите номер конечной станции: "
           end_station = @stations[gets.to_i]
-          @routes << Route.new(start_station, end_station)
+          begin
+            @routes << Route.new(start_station, end_station)
+            puts 'Объект класса передан верно'
+          rescue RuntimeError => e
+            puts e.message
+            puts 'Данные переданы не верно, объекты не принадлежат классу Станция'
+          end
         when 2
           puts "Выберете маршрут в который необходимо добавить/удалить промежуточную станцию: "
           Route.all_with_info
@@ -195,3 +222,5 @@ class Railway
     end
   end
 end
+
+Railway.new.menu

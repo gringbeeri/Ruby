@@ -1,5 +1,7 @@
 class Station
   include InstanceCounter
+  include RaiseStation
+  include Valid
 
   @@stations = []
 
@@ -20,6 +22,8 @@ class Station
   def initialize(name)
     @name = name
     @trains = []
+    validate!
+    valid?
     @@stations << self
   end
 
