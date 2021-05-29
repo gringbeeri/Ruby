@@ -1,12 +1,16 @@
 class Train
   include InstanceCounter
   include Brend
-  include RaiseTrain
+  include TrainValidator
   include Valid
 
   attr_reader :wagons, :number
 
   @@trains = []
+
+  def self.trains
+    @@trains
+  end
 
   def self.all
     @@trains.each do |train|
@@ -38,7 +42,6 @@ class Train
     @speed = 0
     @wagons = []
     validate!
-    valid?
     @@trains << self
   end
 

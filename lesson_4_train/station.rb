@@ -1,9 +1,13 @@
 class Station
   include InstanceCounter
-  include RaiseStation
+  include StationValidator
   include Valid
 
   @@stations = []
+
+  def self.stations
+    @@stations
+  end
 
   def self.all
     @@stations.each do |station|
@@ -23,7 +27,6 @@ class Station
     @name = name
     @trains = []
     validate!
-    valid?
     @@stations << self
   end
 

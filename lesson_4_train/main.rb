@@ -1,9 +1,9 @@
-require_relative './module_brend'
-require_relative './module_instance_counter'
-require_relative './module_raise_route'
-require_relative './module_raise_station'
-require_relative './module_raise_train'
-require_relative './module_valid'
+require_relative './brend'
+require_relative './instance_counter'
+require_relative './route_validator'
+require_relative './station_validator'
+require_relative './train_validator'
+require_relative './valid'
 require_relative './station'
 require_relative './route'
 require_relative './train'
@@ -14,14 +14,6 @@ require_relative './pass_wagon'
 require_relative './cargo_wagon'
 
 class Railway
-
-  attr_reader :trains, :routes, :stations
-
-  def initialize
-    @trains = []
-    @routes = []
-    @stations = []
-  end
 
   def menu
     loop do
@@ -41,7 +33,7 @@ class Railway
       when 1
         print "Введите название станции: "
         begin
-          @stations << Station.new(gets.chomp)
+          Station.new(gets.chomp)
         rescue TypeError => e
           puts e.message
           puts "Попробуйте создать станцию еще раз"
@@ -55,7 +47,7 @@ class Railway
         when 1
           print "Введите номер пассажирского поезда: "
           begin
-            @trains << PassTrain.new(gets.to_i)
+            PassTrain.new(gets.chomp)
             puts "Объект класса поезд создан"
           rescue RuntimeError => e
             puts e.message
@@ -64,7 +56,7 @@ class Railway
         when 2
           print "Введите номер грузового поезда: "
           begin
-            @trains << CargoTrain.new(gets.to_i)
+            CargoTrain.new(gets.chomp)
             puts "Объект класса поезд создан"
           rescue RuntimeError => e
             puts e.message
@@ -81,15 +73,15 @@ class Railway
           puts "Список станций: "
           Station.all_with_info
           print "Введите номер начальной станции: "
-          start_station = @stations[gets.to_i]
+          start_station = Station.stations[gets.to_i]
           print "Введите номер конечной станции: "
-          end_station = @stations[gets.to_i]
+          end_station = Station.stations[gets.to_i]
           begin
-            @routes << Route.new(start_station, end_station)
-            puts 'Объект класса передан верно'
+            Route.new(start_station, end_station)
+            puts 'Объект класса передан верно.'
           rescue RuntimeError => e
             puts e.message
-            puts 'Данные переданы не верно, объекты не принадлежат классу Станция'
+            puts 'Данные переданы не верно, объект класса не принадлежат классу Станция.'
           end
         when 2
           puts "Выберете маршрут в который необходимо добавить/удалить промежуточную станцию: "
@@ -102,12 +94,12 @@ class Railway
           case gets.to_i
           when 1
             print "Введите номер станции которую добавить: "
-            station = @stations[gets.to_i]
-            @routes[answer_route].add_station(station)
+            station = Station.stations[gets.to_i]
+            Route.routes[answer_route].add_station(station)
           when 2
             print "Введите номер станции которую удалить: "
-            station = @stations[gets.to_i]
-            @routes[answer_route].remove_station(station)
+            station = Station.stations[gets.to_i]
+            Route.routes[answer_route].remove_station(station)
           end
         end
 
@@ -119,8 +111,8 @@ class Railway
         puts "Какой маршрут присвоить поезду: "
         Route.all_with_info
         print "Ваш ответ: "
-        route_train = @routes[gets.to_i]
-        @trains[answer_train].take_route(route_train)
+        route_train = Route.routes[gets.to_i]
+        Train.trains[answer_train].take_route(route_train)
 
       when 5
         puts "Введите 1 - для добавления вагона к пассажирскому поезду"
@@ -133,14 +125,14 @@ class Railway
           print "Ваш ответ: "
           answer_trains = gets.to_i
           wagon = PassWagon.new
-          @trains[answer_trains].attach_wagons(wagon)
+          Train.trains[answer_trains].attach_wagons(wagon)
         when 2
           puts "К какому грузовому поезду вы хотите прицепить вагон: "
           info_cargo_train
           print "Ваш ответ: "
           answer_trains = gets.to_i
           wagon = CargoWagon.new
-          @trains[answer_trains].attach_wagons(wagon)
+          Train.trains[answer_trains].attach_wagons(wagon)
         end
 
       when 6
@@ -152,12 +144,12 @@ class Railway
           puts "У какого пассажирского поезда вы хотите отцепить вагон: "
           info_pass_train
           print "Ваш ответ: "
-          @trains[gets.to_i].unhook_wagons
+          Train.trains[gets.to_i].unhook_wagons
         when 2
           puts "У какого грузового поезда вы хотите отцепить вагон: "
           info_cargo_train
           print "Ваш ответ: "
-          @trains[gets.to_i].unhook_wagons
+          Train.trains[gets.to_i].unhook_wagons
         end
 
       when 7
@@ -171,9 +163,9 @@ class Railway
         print "Ваш ответ: "
         case gets.to_i
         when 1
-          @trains[answer_train].move_next_station
+          Train.trains[answer_train].move_next_station
         when 2
-          @trains[answer_train].move_back_station
+          Train.trains[answer_train].move_back_station
         when 3
           puts "Введите 1 - для информации о предыдущей станции"
           puts "Введите 2 - для информации о текущей станции"
@@ -182,11 +174,11 @@ class Railway
           answer_station = gets.to_i
           case answer_station
           when 1
-            @trains[answer_train].previous_station_route
+            Train.trains[answer_train].previous_station_route
           when 2
-            @trains[answer_train].current_station_route
+            Train.trains[answer_train].current_station_route
           when 3
-            @trains[answer_train].next_station_route
+            Train.trains[answer_train].next_station_route
           end
         end
 
@@ -194,7 +186,7 @@ class Railway
         puts "Список станций: "
         Station.all_with_info
         print "Введите цифру станции, для просмотра на ней списка поездов: "
-        @stations[gets.to_i].info_train
+        Station.stations[gets.to_i].info_train
       else
         break answer
         puts "Вы вышли из программы"
@@ -205,7 +197,7 @@ class Railway
   private
 
   def info_pass_train
-    @trains.each_with_index do |train, index|
+    Train.trains.each_with_index do |train, index|
       if train.class == PassTrain
         print "#{index} - "
         train.info
@@ -214,7 +206,7 @@ class Railway
   end
 
   def info_cargo_train
-    @trains.each_with_index do |train, index|
+    Train.trains.each_with_index do |train, index|
       if train.class == CargoTrain
         print "#{index} - "
         train.info
@@ -222,5 +214,3 @@ class Railway
     end
   end
 end
-
-Railway.new.menu

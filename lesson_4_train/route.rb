@@ -1,19 +1,23 @@
 class Route
   include InstanceCounter
-  include RaiseRoute
+  include RouteValidator
   include Valid
 
   @@routes = []
 
+  def self.routes
+    @@routes
+  end
+
   def self.all
-    @@routes.each do |route|
-      route
+    @@routes.each do |routes|
+      routes
     end
   end
 
   def self.all_with_info
     all.each_with_index do |route, index|
-      puts "#{index} - маршрут. Начальная станция: #{route[0].name}. Конечная станция: #{route[-1].name}."
+      puts "#{index} - маршрут. Начальная станция: #{route.stations[0].name} - Конечная станция: #{route.stations[-1].name}."
     end
   end
 
@@ -22,7 +26,7 @@ class Route
   def initialize(start_station, end_station)
     @stations = [start_station, end_station]
     validate!
-    @@routes << @stations
+    @@routes << self
   end
 
   def add_station(station)
