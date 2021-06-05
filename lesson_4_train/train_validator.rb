@@ -5,5 +5,5 @@ module TrainValidator
 
   protected
 
-  REGISTER_NUMBER = /^.{3}[-]?.{2}$/
+  REGISTER_NUMBER = /^([a-z]|\d){3}-?([a-z]|\d){2}$/i
 end
