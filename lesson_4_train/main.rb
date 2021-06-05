@@ -51,7 +51,7 @@ class Railway
             puts "Объект класса поезд создан"
           rescue RuntimeError => e
             puts e.message
-            puts 'Попробуйте создать пассажирский-поезд еще раз'
+            puts 'Попробуйте создать пассажирский-поезд еще раз.'
           end
         when 2
           print "Введите номер грузового поезда: "
@@ -60,7 +60,7 @@ class Railway
             puts "Объект класса поезд создан"
           rescue RuntimeError => e
             puts e.message
-            puts 'Попробуйте создать грузовой-поезд еще раз'
+            puts 'Попробуйте создать грузовой-поезд еще раз.'
           end
         end
 

@@ -10,13 +10,11 @@ class Route
   end
 
   def self.all
-    @@routes.each do |routes|
-      routes
-    end
+    @@routes
   end
 
   def self.all_with_info
-    all.each_with_index do |route, index|
+    @@routes.each_with_index do |route, index|
       puts "#{index} - маршрут. Начальная станция: #{route.stations[0].name} - Конечная станция: #{route.stations[-1].name}."
     end
   end
