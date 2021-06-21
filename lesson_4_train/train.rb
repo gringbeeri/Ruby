@@ -39,7 +39,7 @@ class Train
     @number = number
     @speed = 0
     @wagons = []
-    validate!
+    # validate!
     @@trains << self
   end
 

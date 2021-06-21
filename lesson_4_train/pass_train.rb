@@ -15,4 +15,9 @@ class PassTrain < Train
       puts "Поезд в движении"
     end
   end
+
+  def info_wagons
+    puts "Вагоны: "
+    yield(self.wagons)
+  end
 end

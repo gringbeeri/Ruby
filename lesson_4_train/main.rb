@@ -13,5 +13,3 @@ require_relative './wagon'
 require_relative './pass_wagon'
 require_relative './cargo_wagon'
 require_relative './railway'
-
-Railway.call
