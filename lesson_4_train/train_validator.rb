@@ -1,6 +1,6 @@
 module TrainValidator
   def validate!
-    raise RuntimeError, 'Объект класса не создан, не соблюдены условия регистра.' if number !~ REGISTER_NUMBER
+    raise RuntimeError, "Class object didn't create." if number !~ REGISTER_NUMBER
   end
 
   protected

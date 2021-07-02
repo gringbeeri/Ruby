@@ -3,6 +3,8 @@ class Station
   include StationValidator
   include Valid
 
+  attr_reader :name, :trains
+
   @@stations = []
 
   def self.stations
@@ -19,11 +21,10 @@ class Station
     end
   end
 
-  attr_reader :name, :trains
-
   def initialize(name)
     @name = name
     @trains = []
+    register_instance
     validate!
     @@stations << self
   end
@@ -33,29 +34,25 @@ class Station
   end
 
   def info_train
-    puts "Список поездов на станции: "
+    puts "List trains at the station: "
     trains.each { |train| train.info }
   end
 
-  def type_train
-    qty_pass = 0
-    qty_cargo = 0
+  def type_train(qty_pass=0, qty_cargo=0)
     trains.each do |train|
-      if train.is_a? PassTrain
-        qty_pass += 1
-      elsif train.is_a? CargoTrain
-        qty_cargo += 1
-      end
+      qty_pass += 1 if train.is_a? PassTrain
+      qty_cargo += 1 if train.is_a? CargoTrain
     end
-    puts "На станции находятся #{qty_pass} пассажирских поездов, и #{qty_cargo} грузовых."
+    puts "#{qty_pass} - PassTrain, and #{qty_cargo} CargoTrain."
   end
+
 
   def send_train(train)
     trains.delete(train)
   end
 
-  def info_trains
-    puts "Поезда на станции: "
-    yield(self.trains)
+  def info_trains(block)
+    puts "Train on station: "
+    block.call(self.trains)
   end
 end

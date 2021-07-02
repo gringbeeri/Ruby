@@ -3,6 +3,8 @@ class Route
   include RouteValidator
   include Valid
 
+  attr_reader :stations, :start_station, :end_station
+
   @@routes = []
 
   def self.routes
@@ -15,11 +17,9 @@ class Route
 
   def self.all_with_info
     @@routes.each_with_index do |route, index|
-      puts "#{index} - маршрут. Начальная станция: #{route.stations[0].name} - Конечная станция: #{route.stations[-1].name}."
+      puts "#{index} - route. Start - station: #{route.stations[0].name} - End - station: #{route.stations[-1].name}."
     end
   end
-
-  attr_reader :stations, :start_station, :end_station
 
   def initialize(start_station, end_station)
     @stations = [start_station, end_station]
@@ -33,14 +33,14 @@ class Route
 
   def remove_station(station)
     if station == stations[0] || station == stations[-1]
-      puts "Начальную/конечную станцию удалять нельзя"
+      puts "Station won't be deleted"
     else
       stations.delete(station)
     end
   end
 
   def info_route
-    puts "Список станций в маршруте: "
+    puts "List of stations in the route: "
     stations.each { |station| puts station.name }
   end
 end

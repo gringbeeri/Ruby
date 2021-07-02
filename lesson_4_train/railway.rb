@@ -1,6 +1,6 @@
 class Railway
   def self.call
-      loop do
+    loop do
       puts "Добро пожаловать в железную дорогу!"
       puts "Введите 1 - для создания станции"
       puts "Введите 2 - для создания поезда"
@@ -9,51 +9,51 @@ class Railway
       puts "Введите 5 - для добавления вагона к поезду"
       puts "Введите 6 - для отцепления вагона от поезда"
       puts "Введите 7 - для перемещение поезда по маршруту вперед и назад"
-      puts "Введите 8 - для просмотра списка станций и списка поездов на станции"
+      puts "Введите 8 - для просмотра списка станций, списка поездов на станции и списка вагонов у поезда"
       puts "Введите 9 - для выхода из программы"
       print "Ваш ответ: "
       case gets.to_i
 
       when 1
-          print "Введите название станции: "
-          begin
+        print "Введите название станции: "
+        begin
           Station.new(gets.chomp)
-          rescue TypeError => e
+        rescue TypeError => e
           puts e.message
           puts "Попробуйте создать станцию еще раз"
-          end
+        end
 
       when 2
-          puts "Введите 1 - для создания пассажирского поезда"
-          puts "Введите 2 - для создания грузового поезда"
-          print "Ваш ответ: "
-          case gets.to_i
-          when 1
+        puts "Введите 1 - для создания пассажирского поезда"
+        puts "Введите 2 - для создания грузового поезда"
+        print "Ваш ответ: "
+        case gets.to_i
+        when 1
           print "Введите номер пассажирского поезда: "
           begin
-              PassTrain.new(gets.chomp)
-              puts "Объект класса поезд создан"
+            PassTrain.new(gets.chomp)
+            puts "Объект класса поезд создан"
           rescue RuntimeError => e
-              puts e.message
-              puts 'Попробуйте создать пассажирский-поезд еще раз.'
+            puts e.message
+            puts 'Попробуйте создать пассажирский-поезд еще раз.'
           end
-          when 2
+        when 2
           print "Введите номер грузового поезда: "
           begin
-              CargoTrain.new(gets.chomp)
-              puts "Объект класса поезд создан"
+            CargoTrain.new(gets.chomp)
+            puts "Объект класса поезд создан"
           rescue RuntimeError => e
-              puts e.message
-              puts 'Попробуйте создать грузовой-поезд еще раз.'
+            puts e.message
+            puts 'Попробуйте создать грузовой-поезд еще раз.'
           end
-          end
+        end
 
       when 3
-          puts "Введите 1 - для назначения начальной и конечной станции"
-          puts "Введите 2 - для добавления/удаление промежуточной станции"
-          print "Введите ваш ответ: "
-          case gets.to_i
-          when 1
+        puts "Введите 1 - для назначения начальной и конечной станции"
+        puts "Введите 2 - для добавления/удаление промежуточной станции"
+        print "Введите ваш ответ: "
+        case gets.to_i
+        when 1
           puts "Список станций: "
           Station.all_with_info
           print "Введите номер начальной станции: "
@@ -61,13 +61,13 @@ class Railway
           print "Введите номер конечной станции: "
           end_station = Station.stations[gets.to_i]
           begin
-              Route.new(start_station, end_station)
-              puts 'Объект класса передан верно.'
+            Route.new(start_station, end_station)
+            puts 'Объект класса передан верно.'
           rescue RuntimeError => e
-              puts e.message
-              puts 'Данные переданы не верно, объект класса не принадлежат классу Станция.'
+            puts e.message
+            puts 'Данные переданы не верно, объект класса не принадлежат классу Станция.'
           end
-          when 2
+        when 2
           puts "Выберете маршрут в который необходимо добавить/удалить промежуточную станцию: "
           Route.all_with_info
           print "Введите номер маршрута: "
@@ -77,80 +77,112 @@ class Railway
           print "Ваш ответ: "
           case gets.to_i
           when 1
-              print "Введите номер станции которую добавить: "
-              station = Station.stations[gets.to_i]
-              Route.routes[answer_route].add_station(station)
+            print "Введите номер станции которую добавить: "
+            station = Station.stations[gets.to_i]
+            Route.routes[answer_route].add_station(station)
           when 2
-              print "Введите номер станции которую удалить: "
-              station = Station.stations[gets.to_i]
-              Route.routes[answer_route].remove_station(station)
+            print "Введите номер станции которую удалить: "
+            station = Station.stations[gets.to_i]
+            Route.routes[answer_route].remove_station(station)
           end
-          end
+        end
 
       when 4
-          puts "Введите цифру, какому поезду вы хотите присвоить маршрут: "
-          Train.all_with_info
-          print "Ваш ответ: "
-          answer_train = gets.to_i
-          puts "Какой маршрут присвоить поезду: "
-          Route.all_with_info
-          print "Ваш ответ: "
-          route_train = Route.routes[gets.to_i]
-          Train.trains[answer_train].take_route(route_train)
+        puts "Введите цифру, какому поезду вы хотите присвоить маршрут: "
+        Train.all_with_info
+        print "Ваш ответ: "
+        answer_train = gets.to_i
+        puts "Какой маршрут присвоить поезду: "
+        Route.all_with_info
+        print "Ваш ответ: "
+        route_train = Route.routes[gets.to_i]
+        Train.trains[answer_train].take_route(route_train)
 
       when 5
-          puts "Введите 1 - для добавления вагона к пассажирскому поезду"
-          puts "Введите 2 - для добавления вагона к грузовому поезду"
-          print "Ваш ответ: "
-          case gets.to_i
-          when 1
+        puts "Введите 1 - для добавления вагона к пассажирскому поезду"
+        puts "Введите 2 - для добавления вагона к грузовому поезду"
+        puts "Введите 3 - для заполянемости места или объема в вагоне"
+        print "Ваш ответ: "
+        case gets.to_i
+        when 1
           puts "К какому пассажирскому поезду вы хотите прицепить вагон: "
           info_pass_train
           print "Ваш ответ: "
           answer_trains = gets.to_i
-          wagon = PassWagon.new
+          print "Выберите количество мест в вагоне: "
+          wagon = PassWagon.new(gets.to_i)
           Train.trains[answer_trains].attach_wagons(wagon)
-          when 2
+        when 2
           puts "К какому грузовому поезду вы хотите прицепить вагон: "
           info_cargo_train
           print "Ваш ответ: "
           answer_trains = gets.to_i
-          wagon = CargoWagon.new
+          print "Введите заполняемый объем вагона: "
+          wagon = CargoWagon.new(gets.to_i)
           Train.trains[answer_trains].attach_wagons(wagon)
-          end
-
-      when 6
-          puts "Введите 1 - для отцепления вагона от пассажирского поезду"
-          puts "Введите 2 - для отцепления вагона от грузового поезду"
+        when 3
+          puts "Введите 1 - для заполняемости пассажирского вагона и проверки мест"
+          puts "Введите 2 - для заполняемости грузового вагона и проверки объема"
           print "Ваш ответ: "
           case gets.to_i
           when 1
+            puts "Какой пассажирский поезд вы хотите заполнить местами и какой вагон: "
+            info_pass_train
+            print "Ваш ответ: "
+            pass_train = gets.to_i
+            Train.trains[pass_train].info_wagon
+            print "Выберите вагон: "
+            answer_wagon = gets.to_i
+            Train.trains[pass_train].wagons[answer_wagon].busy_seats
+            puts "Количество свободных мест: "
+            Train.trains[pass_train].wagons[answer_wagon].info_free_seats
+          when 2
+            puts "Какой грузовой поезд вы хотите заполнить объемом и какой вагон: "
+            info_cargo_train
+            print "Ваш ответ: "
+            cargo_train = gets.to_i
+            Train.trains[cargo_train].info_wagon
+            print "Выберите вагон: "
+            answer_wagon = gets.to_i
+            print "Передайте нужный объем: "
+            Train.trains[cargo_train].wagons[answer_wagon].fill_valume(gets.to_i)
+            puts "Количество свободного объема: "
+            Train.trains[cargo_train].wagons[answer_wagon].info_general_valume
+          end
+        end
+
+      when 6
+        puts "Введите 1 - для отцепления вагона от пассажирского поезду"
+        puts "Введите 2 - для отцепления вагона от грузового поезду"
+        print "Ваш ответ: "
+        case gets.to_i
+        when 1
           puts "У какого пассажирского поезда вы хотите отцепить вагон: "
           info_pass_train
           print "Ваш ответ: "
           Train.trains[gets.to_i].unhook_wagons
-          when 2
+        when 2
           puts "У какого грузового поезда вы хотите отцепить вагон: "
           info_cargo_train
           print "Ваш ответ: "
           Train.trains[gets.to_i].unhook_wagons
-          end
+        end
 
       when 7
-          puts "Выберите поезд "
-          Train.all_with_info
-          print "Ваш ответ: "
-          answer_train = gets.to_i
-          puts "Введите 1 - для передвижения вперед"
-          puts "Введите 2 - для передвижения назад"
-          puts "Введите 3 - для инфрмации о предыдущей/текущей/следующей станции"
-          print "Ваш ответ: "
-          case gets.to_i
-          when 1
+        puts "Выберите поезд "
+        Train.all_with_info
+        print "Ваш ответ: "
+        answer_train = gets.to_i
+        puts "Введите 1 - для передвижения вперед"
+        puts "Введите 2 - для передвижения назад"
+        puts "Введите 3 - для инфрмации о предыдущей/текущей/следующей станции"
+        print "Ваш ответ: "
+        case gets.to_i
+        when 1
           Train.trains[answer_train].move_next_station
-          when 2
+        when 2
           Train.trains[answer_train].move_back_station
-          when 3
+        when 3
           puts "Введите 1 - для информации о предыдущей станции"
           puts "Введите 2 - для информации о текущей станции"
           puts "Введите 3 - для информации о следующей станции"
@@ -158,42 +190,57 @@ class Railway
           answer_station = gets.to_i
           case answer_station
           when 1
-              Train.trains[answer_train].previous_station_route
+            Train.trains[answer_train].previous_station_route
           when 2
-              Train.trains[answer_train].current_station_route
+            Train.trains[answer_train].current_station_route
           when 3
-              Train.trains[answer_train].next_station_route
+            Train.trains[answer_train].next_station_route
           end
-          end
+        end
 
       when 8
+        puts "Введите 1 - для просмотра станции и списка поездов на ней"
+        puts "Введите 2 - для просмотра списка поездов и списка вагонов у них"
+        print "Ваш ответ: "
+        case gets.to_i
+        when 1
           puts "Список станций: "
           Station.all_with_info
           print "Введите цифру станции, для просмотра на ней списка поездов: "
-          Station.stations[gets.to_i].info_train
+          answer_station = gets.to_i
+          block = lambda { |train| puts train }
+          Station.stations[answer_station].info_trains(block)
+        when 2
+          puts "Список поездов"
+          Train.all_with_info
+          print "Выберите поезд: "
+          answer_train = gets.to_i
+          block = lambda { |wagon| puts wagon }
+          Train.trains[answer_train].info_wagons(block)
+        end
       else
-          break answer
-          puts "Вы вышли из программы"
+        break answer
+        puts "Вы вышли из программы"
       end
     end
   end
 
   private
 
-  def info_pass_train
+  def self.info_pass_train
     Train.trains.each_with_index do |train, index|
-      if train.class == PassTrain
-          print "#{index} - "
-          train.info
+      if train.is_a? PassTrain
+        print "#{index} - "
+        train.info
       end
     end
   end
 
-  def info_cargo_train
+  def self.info_cargo_train
     Train.trains.each_with_index do |train, index|
-      if train.class == CargoTrain
-          print "#{index} - "
-          train.info
+      if train.is_a? CargoTrain
+        print "#{index} - "
+        train.info
       end
     end
   end

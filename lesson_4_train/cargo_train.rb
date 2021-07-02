@@ -6,13 +6,9 @@ class CargoTrain < Train
 
   def attach_wagons(wagon)
     if minimal_speed?
-      if wagon.is_a? CargoWagon
-        @wagons << wagon
-      else
-        puts "Данный вагон не подходит к этому типу поезда"
-      end
+      @wagons << wagon if wagon.is_a? CargoWagon
     else
-      puts "Поезд в движении"
+      puts'Train is moving'
     end
   end
 end

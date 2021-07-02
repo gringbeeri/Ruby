@@ -8,7 +8,7 @@ module InstanceCounter
     @@quantity = 0
 
     def instances
-      puts "#{@@quantity} - количество экземпляров"
+      puts "#{@@quantity} - quantity of copies"
     end
 
     def register_instance

@@ -1,6 +1,6 @@
 module StationValidator
   def validate!
-    raise TypeError, 'Данный объект не создан! Не соблюдены условия обязательного регистра.' if name !~ REGISTER_NAME
+    raise TypeError, "Class object didn't create." if name !~ REGISTER_NAME
   end
 
   protected

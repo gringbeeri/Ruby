@@ -6,18 +6,9 @@ class PassTrain < Train
 
   def attach_wagons(wagon)
     if minimal_speed?
-      if wagon.is_a? PassWagon
-        @wagons << wagon
-      else
-        puts "Данный вагон не подходит к этому типу поезда"
-      end
+      @wagons  << wagon if wagon.is_a? PassWagon
     else
-      puts "Поезд в движении"
+      puts('Train is moving')
     end
-  end
-
-  def info_wagons
-    puts "Вагоны: "
-    yield(self.wagons)
   end
 end
