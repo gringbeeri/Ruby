@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Route
 class Route
   include InstanceCounter
   include RouteValidator
@@ -40,7 +43,7 @@ class Route
   end
 
   def info_route
-    puts "List of stations in the route: "
+    puts 'List of stations in the route: '
     stations.each { |station| puts station.name }
   end
 end

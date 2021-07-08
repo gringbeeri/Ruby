@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Station
 class Station
   include InstanceCounter
   include StationValidator
@@ -34,11 +37,11 @@ class Station
   end
 
   def info_train
-    puts "List trains at the station: "
+    puts 'List trains at the station: '
     trains.each { |train| train.info }
   end
 
-  def type_train(qty_pass=0, qty_cargo=0)
+  def type_train(qty_pass = 0, qty_cargo = 0)
     trains.each do |train|
       qty_pass += 1 if train.is_a? PassTrain
       qty_cargo += 1 if train.is_a? CargoTrain
@@ -46,13 +49,14 @@ class Station
     puts "#{qty_pass} - PassTrain, and #{qty_cargo} CargoTrain."
   end
 
-
   def send_train(train)
     trains.delete(train)
   end
 
-  def info_trains(block)
-    puts "Train on station: "
-    block.call(self.trains)
+  def info_trains(&block)
+    trains.each do |train|
+      train.info
+      block.call(train)
+    end
   end
 end
