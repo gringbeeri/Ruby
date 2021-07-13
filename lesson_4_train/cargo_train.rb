@@ -1,18 +1,17 @@
 class CargoTrain < Train
-
-  def initialize(number)
-    super
-  end
-
   def attach_wagons(wagon)
     if minimal_speed?
-      if wagon.is_a? CargoWagon
-        @wagons << wagon
-      else
-        puts "Данный вагон не подходит к этому типу поезда"
-      end
+      @wagons << wagon if wagon.is_a? CargoWagon
     else
-      puts "Поезд в движении"
+      puts 'Train is moving'
+    end
+  end
+
+  def info_wagons(qty = 0, &block)
+    wagons.each do |wagon|
+      qty += 1
+      puts "Number #{qty}, type: #{wagon.class}, #{wagon.info_fill} fill volume, #{wagon.info_volume} free volume."
+      block.call(wagon)
     end
   end
 end

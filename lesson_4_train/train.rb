@@ -12,10 +12,6 @@ class Train
     @@trains
   end
 
-  def self.all
-    @@trains
-  end
-
   def self.all_with_info
     @@trains.each_with_index do |train, index|
       print "#{index} - "
@@ -25,21 +21,18 @@ class Train
 
   def self.find(number_train)
     @@trains.each do |train|
-      if number_train == train.number
-        puts train
-      else
-        puts "Данного поезда не сущестует"
-      end
+      number_train == train.number ? (puts train) : (puts "Train doesn't exist")
     end
   end
 
   def initialize(number)
-    raise "Данный объект класса создать нельзя" if self.class.to_s == "Train"
+    raise "Oblect didn't create" if self.class.to_s == 'Train'
 
     @number = number
     @speed = 0
     @wagons = []
     validate!
+    register_instance
     @@trains << self
   end
 
@@ -48,7 +41,7 @@ class Train
   end
 
   def current_speed
-    puts "Текущая скорость: #{self.speed}"
+    puts "Current speed: #{speed}"
   end
 
   def reduce_speed
@@ -56,21 +49,13 @@ class Train
   end
 
   def unhook_wagons
-    if minimal_speed?
-      self.wagons.pop
-    else
-      puts "Поезд в движении"
-    end
+    minimal_speed? ? wagons.pop : (puts 'Train moves')
   end
 
-  def info
-    wagon_train = 0
-    @wagons.each do |wagon|
-      wagon_train += 1
-    end
-    puts "Поезд номер: #{self.number}, #{self.class} типа, с количеством вагонов #{wagon_train}"
+  def info(wagon_train = 0)
+    @wagons.each { |_wagon| wagon_train += 1 }
+    puts "Number train: #{number}, #{self.class} type, with qty wagons #{wagon_train}"
   end
-
 
   def take_route(route)
     @route = route
@@ -102,15 +87,23 @@ class Train
     @route.stations[@index + 1]
   end
 
+  def info_wagon
+    wagons.each_with_index do |wagon, index|
+      puts "#{index} - wagon, #{wagon}"
+    end
+  end
+
   protected
 
   attr_reader :speed
 
-  def minimal_speed? # частичка метода увеличение количества вагонов. Этот метод, деталь реалазиции данного метода, и в явную он не пригодится, поэтому он был скрыт.
-    self.speed.zero?
+  # This method is an implementation detail.
+  def minimal_speed?
+    speed.zero?
   end
 
-  def place_first_station #данный метод следует для всех объектов подклассов, он является атоматическим, вызывать его и проверять нет необходимости.
+  # This method is an implementation detail.
+  def place_first_station
     @route.stations[@index].take_train(self)
   end
 end
