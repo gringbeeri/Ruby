@@ -1,6 +1,3 @@
-# frozen_string_literal: true
-
-# Station
 class Station
   include InstanceCounter
   include StationValidator
@@ -8,18 +5,22 @@ class Station
 
   attr_reader :name, :trains
 
-  @@stations = []
+  @stations = []
 
-  def self.stations
-    @@stations
+  class << self
+    attr_accessor :stations
+  end
+
+  def self.all_stations
+    @stations
   end
 
   def self.all
-    @@stations
+    @stations
   end
 
   def self.all_with_info
-    @@stations.each_with_index do |station, index|
+    @stations.each_with_index do |station, index|
       puts "#{index} - #{station.name}"
     end
   end
@@ -29,7 +30,7 @@ class Station
     @trains = []
     register_instance
     validate!
-    @@stations << self
+    self.class.stations << self
   end
 
   def take_train(train)

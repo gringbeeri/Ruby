@@ -1,11 +1,9 @@
-# frozen_string_literal: true
-
-# HeirClass
 class PassWagon < Wagon
   attr_reader :busy_seat
 
   def initialize(free_seats)
-    super
+    super()
+
     raise "Data transfer don't right" unless free_seats.is_a? Integer
     raise "Data transfer don't right" if free_seats < 1
 

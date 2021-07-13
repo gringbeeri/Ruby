@@ -1,9 +1,9 @@
-# HeirClass
 class CargoWagon < Wagon
   attr_reader :fill_volume
 
   def initialize(volume)
-    super
+    super()
+
     raise "Data transfer don't right" unless volume.is_a? Integer
     raise "Data transfer don't right" if volume < 1
 

@@ -1,6 +1,3 @@
-# frozen_string_literal: true
-
-# Railway
 class Railway
   def self.call
     loop do

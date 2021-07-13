@@ -1,6 +1,3 @@
-# frozen_string_literal: true
-
-# Route
 class Route
   include InstanceCounter
   include RouteValidator
@@ -8,18 +5,22 @@ class Route
 
   attr_reader :stations, :start_station, :end_station
 
-  @@routes = []
+  @routes = []
 
-  def self.routes
-    @@routes
+  class << self
+    attr_accessor :routes
+  end
+
+  def self.all_routes
+    @routes
   end
 
   def self.all
-    @@routes
+    @routes
   end
 
   def self.all_with_info
-    @@routes.each_with_index do |route, index|
+    @routes.each_with_index do |route, index|
       puts "#{index} - route. Start - station: #{route.stations[0].name} - End - station: #{route.stations[-1].name}."
     end
   end
@@ -27,7 +28,8 @@ class Route
   def initialize(start_station, end_station)
     @stations = [start_station, end_station]
     validate!
-    @@routes << self
+    register_instance
+    self.class.routes << self
   end
 
   def add_station(station)

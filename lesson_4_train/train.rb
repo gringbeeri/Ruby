@@ -1,6 +1,3 @@
-# frozen_string_literal: true
-
-# Train
 class Train
   include InstanceCounter
   include Brend
@@ -35,6 +32,7 @@ class Train
     @speed = 0
     @wagons = []
     validate!
+    register_instance
     @@trains << self
   end
 

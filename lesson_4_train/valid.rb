@@ -1,6 +1,3 @@
-# frozen_string_literal: true
-
-# Valid
 module Valid
   def valid?
     validate!
