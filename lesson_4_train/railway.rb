@@ -1,5 +1,13 @@
+# frozen_string_literal: true
+
+# rubocop:disable Metrics/ClassLength
 class Railway
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/PerceivedComplexity
   def self.call
+    # rubocop:disable Metrics/BlockLength
     loop do
       puts 'Добро пожаловать в железную дорогу!'
       puts 'Введите 1 - для создания станции'
@@ -221,6 +229,7 @@ class Railway
         break answer
       end
     end
+    # rubocop: enable Metrics/BlockLength
   end
 
   def self.info_pass_train
@@ -240,4 +249,9 @@ class Railway
       end
     end
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/PerceivedComplexity
 end
+# rubocop:enable Metrics/ClassLength

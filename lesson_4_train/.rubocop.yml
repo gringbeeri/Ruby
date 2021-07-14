@@ -1,20 +1,34 @@
-Style/FrozenStringLiteralComment:
-  Enabled: false
 Style/Documentation:
   Enabled: false
+
 Style/ClassVars:
-  Enabled: false
+  Exclude:
+  - train.rb
+  - instance_counter.rb
 Style/SymbolProc:
-  Enabled: false
-Metrics/ClassLength:
-  Enabled: 250
-Metrics/BlockLength:
-  Enabled: 250
-Metrics/AbcSize:
-  Enabled: false
-Metrics/CyclomaticComplexity:
-  Enabled: 50
-Metrics/PerceivedComplexity:
-  Enabled: 50
-Metrics/MethodLength:
-  Enabled: 250
+  Exclude:
+    - station.rb
+
+# Style/FrozenStringLiteralComment:
+#   Enabled: false
+# Style/Documentation:
+#   Enabled: false
+  # Style/ClassVars:
+    # Enabled: false
+# Style/SymbolProc:
+#   Enabled: false
+# Metrics/BlockLength:
+#   Exclude:
+#     - railway.rb
+
+  # Enabled: 250
+# Metrics/BlockLength:
+#   Enabled: 250
+# Metrics/AbcSize:
+#   Enabled: false
+# Metrics/CyclomaticComplexity:
+#   Enabled: 50
+# Metrics/PerceivedComplexity:
+#   Enabled: 50
+# Metrics/MethodLength:
+#   Enabled: 250

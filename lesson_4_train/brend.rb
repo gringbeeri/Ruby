@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Brend
   def brend(name)
     self.name_company = name

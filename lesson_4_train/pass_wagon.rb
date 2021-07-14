@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PassWagon < Wagon
   attr_reader :busy_seat
 

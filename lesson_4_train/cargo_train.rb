@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CargoTrain < Train
   def attach_wagons(wagon)
     if minimal_speed?

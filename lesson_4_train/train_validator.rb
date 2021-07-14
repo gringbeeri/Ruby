@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TrainValidator
   def validate!
     raise "Class object didn't create." if number !~ REGISTER_NUMBER
