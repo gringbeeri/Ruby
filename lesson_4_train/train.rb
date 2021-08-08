@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
 class Train
+  extend Accessors
   include InstanceCounter
   include Brend
   include TrainValidator
   include Valid
+
+  attr_accessor_with_history :color
+  strong_attr_accessor :people, String
 
   attr_reader :wagons, :number
 
