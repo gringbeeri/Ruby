@@ -8,6 +8,10 @@ module Validation
 
   module ClassMethods
     def validate(name, valid)
+      instance_name = "@#{name}".to_sym
+      define_method("#{name}=".to_sym) do
+        instance_variable_set(instance_name, value)
+      end
     end
   end
 

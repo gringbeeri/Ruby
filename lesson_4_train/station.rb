@@ -3,7 +3,6 @@
 class Station
   include InstanceCounter
   include StationValidator
-  include Valid
 
   attr_reader :name, :trains
 
@@ -31,7 +30,7 @@ class Station
     @name = name
     @trains = []
     register_instance
-    validate!
+    # validate!
     self.class.stations << self
   end
 
