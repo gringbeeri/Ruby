@@ -5,8 +5,9 @@ class Train
   include InstanceCounter
   include Brend
   include TrainValidator
-  include Valid
+  include Validation
 
+  validate :people, :type, String
   attr_accessor_with_history :color
   strong_attr_accessor :people, String
 
@@ -37,7 +38,6 @@ class Train
     @number = number
     @speed = 0
     @wagons = []
-    validate!
     register_instance
     @@trains << self
   end

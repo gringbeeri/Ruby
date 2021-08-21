@@ -3,7 +3,7 @@
 class Route
   include InstanceCounter
   include RouteValidator
-  # include Valid
+  include Validation
 
   attr_reader :stations, :start_station, :end_station
 
@@ -29,7 +29,7 @@ class Route
 
   def initialize(start_station, end_station)
     @stations = [start_station, end_station]
-    # validate!
+    validate!
     register_instance
     self.class.routes << self
   end

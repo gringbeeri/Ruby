@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class Station
+  extend Accessors
   include InstanceCounter
   include StationValidator
+  include Validation
 
   attr_reader :name, :trains
 
@@ -30,7 +32,7 @@ class Station
     @name = name
     @trains = []
     register_instance
-    # validate!
+    validate!
     self.class.stations << self
   end
 
