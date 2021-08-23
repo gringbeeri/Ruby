@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative './accessors'
 require_relative './valid'
+require_relative './accessors'
 require_relative './brend'
 require_relative './instance_counter'
 require_relative './route_validator'

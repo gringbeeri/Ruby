@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module StationValidator
-  def validate!
+  def station_validate!
     raise TypeError, "Class object didn't create." if name !~ REGISTER_NAME
   end
 

@@ -29,7 +29,7 @@ class Route
 
   def initialize(start_station, end_station)
     @stations = [start_station, end_station]
-    validate!
+    route_validate!
     register_instance
     self.class.routes << self
   end

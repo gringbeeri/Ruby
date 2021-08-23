@@ -14,15 +14,11 @@ module Accessors
     end
   end
 
-  def strong_attr_accessor(name, name_class)
+  def strong_attr_accessor(name, validate)
     instance_name = "@#{name}".to_sym
     define_method(name) { instance_variable_get(instance_name) }
     define_method("#{name}=".to_sym) do |value|
-      if value.is_a? name_class
-        instance_variable_set(instance_name, value)
-      else
-        raise "Class object didn't create"
-      end
+      instance_variable_set(instance_name, value) ? (value.is_a? validate) : (raise "Class object didn't create")
     end
   end
 end
