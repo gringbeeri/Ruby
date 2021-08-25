@@ -1,12 +1,20 @@
 # frozen_string_literal: true
 
+require_relative './valid'
+
 class Train
+  extend Accessors
   include InstanceCounter
   include Brend
   include TrainValidator
-  include Valid
+  include Validation
 
-  attr_reader :wagons, :number
+  validate :number, :type, String
+  validate :number, :presence
+  attr_accessor_with_history :color
+  strong_attr_accessor :people, String
+
+  attr_reader :wagons
 
   @@trains = []
 
@@ -31,9 +39,9 @@ class Train
     raise "Oblect didn't create" if self.class.to_s == 'Train'
 
     @number = number
+    validate!
     @speed = 0
     @wagons = []
-    validate!
     register_instance
     @@trains << self
   end
